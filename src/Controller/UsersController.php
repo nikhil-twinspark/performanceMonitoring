@@ -45,7 +45,7 @@ class UsersController extends AppController
     public function initialize(){
         parent::initialize();
         $this->Auth->config('authorize', ['Controller']);
-        $this->Auth->allow(['add','adminDashboard']);
+        $this->Auth->allow(['add','adminDashboard','signUp']);
     }
 
     public function adminDashboard(){
@@ -90,6 +90,43 @@ class UsersController extends AppController
         $this->set('loggedInUser', $loggedInUser);
         $this->set('users', $users);
         $this->set('_serialize', ['users']);
+    }
+
+    public function signUp(){
+        $userTable = $this->loadModel('Integrateideas/User.Users');
+        $user = $userTable->newEntity();
+        $this->loadModel('Integrateideas/User.Roles');
+        $roles = $this->Roles->find()->where(['Roles.name IS NOT' => 'admin' ])->combine('id', 'label')->toArray();
+        $this->loadModel('JobDesignations');
+        $jobDesignations = $this->JobDesignations->find()->combine('id','label')->toArray();
+        if ($this->request->is('post')) {
+            $user = $userTable->patchEntity($user, $this->request->data);
+            if(!$user->errors()){
+            if ($userTable->save($user)) {
+                if(!$userTable->save($user)['job_designation_id']){
+                $userJobDesignationData = ['user_id' => $userTable->save($user)['id'], 'job_designation_id' => '0'];
+                }else{
+                $userJobDesignationData = ['user_id' => $userTable->save($user)['id'], 'job_designation_id' => $userTable->save($user)['job_designation_id']];
+                }
+                $this->loadModel('UserJobDesignations');
+                $userJobDesig = $this->UserJobDesignations->newEntity();
+                $userJobDesig = $this->UserJobDesignations->patchEntity($userJobDesig,$userJobDesignationData);
+                $this->UserJobDesignations->save($userJobDesig);
+                $this->Flash->success(__('The user has been saved.'));
+                return $this->redirect('/integrateideas/user/users/login');
+            }else{
+            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+            }
+          }else{
+            $this->Flash->error(__('KINDLY_PROVIDE_VALID_DATA'));
+          }
+      }
+    $this->set('jobDesignations', $jobDesignations);
+    $this->set('roles', $roles);
+    $this->set('user', $user);
+    $this->set('_serialize', ['user']);
+
+
     }
 
     /**
