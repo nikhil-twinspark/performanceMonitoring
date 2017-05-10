@@ -30,8 +30,12 @@ class JobDesignationsSeed extends AbstractSeed
                       [ 'name'    => 'analyst',
                       'label'   =>'Analyst',
                       'created' => date('Y-m-d H:i:s'),
+                      'modified'=> date('Y-m-d H:i:s'),],
+                      [ 'name'    => 'owner',
+                      'label'   =>'Owner',
+                      'created' => date('Y-m-d H:i:s'),
                       'modified'=> date('Y-m-d H:i:s'),]
-            ];;
+            ];
 
         $table = $this->table('job_designations');
         $table->insert($data)->save();
