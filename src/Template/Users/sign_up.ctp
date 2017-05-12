@@ -16,7 +16,7 @@
                 <div class="form-group">
                 <?= $this->Form->label('last_name', __('Last Name'), ['class' => ['col-sm-2', 'control-label']]); ?>
                     <div class="col-sm-10">
-                        <?= $this->Form->input('last_name', ['label' => false,'required' => true,'class' => ['form-control m-b']]); ?>
+                        <?= $this->Form->input('last_name', ['label' => false,'required' => true,'class' => ['form-control m-b'],'type'=>'email']); ?>
                     </div>
                 </div>
                 <div class="hr-line-dashed"></div>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="hr-line-dashed"></div>
                 <div class="form-group">
-                <?= $this->Form->label('username', __('Username'), ['class' => 'col-sm-2', 'control-label']); ?>
+                <?= $this->Form->label('username', __('Username'), ['class' => ['col-sm-2', 'control-label']]); ?>
                     <div class="col-sm-10">
                         <?= $this->Form->input('username', ['label' => false,'required' => true,'class' => ['form-control m-b']]); ?>
                     </div>
