@@ -2,7 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-
+use Cake\Collection\Collection;
 /**
  * JobDesignations Controller
  *
@@ -49,15 +49,31 @@ class JobDesignationsController extends AppController
     public function add()
     {
         $jobDesignation = $this->JobDesignations->newEntity();
+        $this->loadModel('Competencies');
+        $competencies = $this->Competencies->find()
+                                            ->all()
+                                            ->toArray();
+        $selectedCompitancyData = [];
         if ($this->request->is('post')) {
-            $jobDesignation = $this->JobDesignations->patchEntity($jobDesignation, $this->request->data);
-            if ($this->JobDesignations->save($jobDesignation)) {
+            $selectedCompitancyId = $this->request->data['compitancy'];
+            foreach ($selectedCompitancyId as $key => $value) {
+                $selectedCompitancyData[]['competency_id']=$value;
+            }
+            $name = strtolower($this->request->data['label']);
+            $data = ['name' => $name,
+                      'label' => $this->request->data['label'],
+                      'job_designation_competencies'=>$selectedCompitancyData
+                  ];
+            $jobDesignation = $this->JobDesignations->newEntity($data,['associated' => ['JobDesignationCompetencies']]);
+            $jobDesignation = $this->JobDesignations->patchEntity($jobDesignation,$data,['associated' => ['JobDesignationCompetencies']]);
+            if ($this->JobDesignations->save($jobDesignation, ['associated' => ['JobDesignationCompetencies']])) {
                 $this->Flash->success(__('The job designation has been saved.'));
-
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The job designation could not be saved. Please, try again.'));
         }
+
+        $this->set('competencies', $competencies);                                    
         $this->set(compact('jobDesignation'));
         $this->set('_serialize', ['jobDesignation']);
     }
@@ -70,19 +86,44 @@ class JobDesignationsController extends AppController
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function edit($id = null)
-    {
+    {   
+
         $jobDesignation = $this->JobDesignations->get($id, [
-            'contain' => []
+            'contain' => ['JobDesignationCompetencies']
         ]);
+
+        if(isset($jobDesignation->job_designation_competencies)){
+
+          $jobDesignation->job_designation_competencies = (new Collection($jobDesignation->job_designation_competencies))->extract('competency_id')->toArray();     
+        }else{
+            $jobDesignation->job_designation_competencies = [];
+        }
+
+        $this->loadModel('Competencies');
+        $competencies = $this->Competencies->find()
+                                            ->all()
+                                            ->toArray();
+        $selectedCompitancyData = [];
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $jobDesignation = $this->JobDesignations->patchEntity($jobDesignation, $this->request->data);
-            if ($this->JobDesignations->save($jobDesignation)) {
+            $selectedCompitancyId = $this->request->data['compitancy'];
+            foreach ($selectedCompitancyId as $key => $value) {
+                $selectedCompitancyData[]['competency_id']=$value;   
+            }
+            $name = strtolower($this->request->data['label']);
+            $data = ['name' => $name,
+                      'label' => $this->request->data['label'],
+                      'job_designation_competencies'=>$selectedCompitancyData
+                  ];
+            
+            $jobDesignation = $this->JobDesignations->patchEntity($jobDesignation,$data,['associated' => ['JobDesignationCompetencies']]);
+            if ($this->JobDesignations->save($jobDesignation, ['associated' => ['JobDesignationCompetencies']])) {
                 $this->Flash->success(__('The job designation has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The job designation could not be saved. Please, try again.'));
         }
+        $this->set('competencies', $competencies);
         $this->set(compact('jobDesignation'));
         $this->set('_serialize', ['jobDesignation']);
     }

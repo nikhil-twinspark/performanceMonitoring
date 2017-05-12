@@ -4,7 +4,7 @@
     </div>
     <div id="logo" class="light-version">
         <span>
-            Performance Monitoring
+            CAPview
         </span>
     </div>
     <nav role="navigation">
@@ -26,7 +26,7 @@
         </div>
         <div class="navbar-right">
             <ul class="nav navbar-nav no-borders">
-                <li class="dropdown">
+                <!-- <li class="dropdown">
                     <a class="dropdown-toggle label-menu-corner" href="#" data-toggle="dropdown">
                         <i class="pe-7s-mail"></i>
                         <span class="label label-success">4</span>
@@ -47,7 +47,7 @@
                         </li>
                         <li class="summary"><a href="#">See All Messages</a></li>
                     </ul>
-                </li>
+                </li> -->
                 <li>
                      <?= $this->Html->link(__('Logout'), ['controller' => 'Integrateideas/User/Users', 'action' => 'logout'], ['class' => ['fa', 'fa-sign-out']]) ?>
                 </li>

@@ -3,13 +3,18 @@
         <div class="col-lg-12">
             <div class="hpanel">
                 <div class="panel-body">
+                    <div class="text-right">
+                                <?=$this->Html->link('Add New Job Designation', ['controller' => 'job-designations', 'action' => 'add'],['class' => ['btn', 'btn-success']])?>
+                    </div>
+                    <br>
+                    <h5>This is the list of all the Job Designations here at Twinspark. You can add, edit or delete a Job Designation as per requirement.</h5>
+                    <br>
                     <div class="table-responsive">
                         <table cellpadding="1" cellspacing="1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                                    <th scope="col"><?= $this->Paginator->sort('name') ?></th>
-                                    <th scope="col"><?= $this->Paginator->sort('label') ?></th>
+                                    <th scope="col"><?= __('Designation Name') ?></th>
                                     <th scope="col"><?= $this->Paginator->sort('created') ?></th>
                                     <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                                     <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -19,7 +24,6 @@
                                 <?php foreach ($jobDesignations as $jobDesignation): ?>
                                     <tr>
                                         <td><?= $this->Number->format($jobDesignation->id) ?></td>
-                                        <td><?= h($jobDesignation->name) ?></td>
                                         <td><?= h($jobDesignation->label) ?></td>
                                         <td><?= h($jobDesignation->created) ?></td>
                                         <td><?= h($jobDesignation->modified) ?></td>

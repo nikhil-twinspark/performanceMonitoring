@@ -1,53 +1,21 @@
-<!-- <?php
-/**
-  * @var \App\View\AppView $this
-  */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $competency->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $competency->id)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Competencies'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Job Designation Competencies'), ['controller' => 'JobDesignationCompetencies', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Job Designation Competency'), ['controller' => 'JobDesignationCompetencies', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="competencies form large-9 medium-8 columns content">
-    <?= $this->Form->create($competency) ?>
-    <fieldset>
-        <legend><?= __('Edit Competency') ?></legend>
-        <?php
-            echo $this->Form->input('text');
-            echo $this->Form->input('maximum_level');
-            echo $this->Form->input('description');
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
-</div> -->
 <div class="row">
     <div class="col-lg-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-              <legend><?= __('Add New Competency') ?></legend>
+              <legend><?= __('Edit Competency') ?></legend>
             </div>
             <div class="ibox-content">
             <?= $this->Form->create($competency, ['data-toggle'=>"validator",'class' => 'form-horizontal', 'enctype'=>"multipart/form-data"]) ?>
              <div class="hr-line-dashed"></div>
                 <div class="form-group">
-                <?= $this->Form->label('name', __('Competency Text'), ['class' => ['col-sm-2', 'control-label']]); ?>
+                <?= $this->Form->label('name', __('Competency Name'), ['class' => ['col-sm-2', 'control-label']]); ?>
                     <div class="col-sm-10">
                        <?= $this->Form->input('text', ['label' => false,'class' => ['form-control']]); ?>
                     </div>  
             </div>
             <div class="hr-line-dashed"></div>
                 <div class="form-group">
-                <?= $this->Form->label('label', __('Maximum Level'), ['class' => ['col-sm-2', 'control-label']]); ?>
+                <?= $this->Form->label('label', __('Maximum levels in this competency'), ['class' => ['col-sm-2', 'control-label']]); ?>
                     <div class="col-sm-10">
                        <?= $this->Form->input('maximum_level', ['label' => false,'class' => ['form-control']]); ?>
                     </div>  
@@ -60,12 +28,23 @@
                     </div>  
             </div>
             <div class="hr-line-dashed"></div>
-                <div class="form-group">
-                    <?= $this->Form->label('name', __('Job Designation'), ['class' => ['col-sm-2', 'control-label']]); ?>
+            <div class="form-group">
+                <?= $this->Form->label('Tags', 'Associated Job Designation', ['class' => ['col-sm-2', 'control-label'],]); ?>
                     <div class="col-sm-10">
-                       <?= $this->Form->input('designation_id', ['label' => false, 'required' => true, 'class' => ['form-control']]); ?>
-                    </div>
-            </div> 
+                    <?php foreach ($jobDesignations as $jobDesignation) {
+                        $checked = in_array($jobDesignation->id, $competency->job_designation_competencies) ? "checked" : "";
+
+                    ?>
+                        <div class="checkbox i-checks">
+
+                            <label title="<?= $jobDesignation['label'] ?>" >
+                                <input type="checkbox" name= "job_designation_id[<?= $jobDesignation['id'] ?>]"  <?= $checked ?> value= '<?= $jobDesignation['id'] ?>'>
+                                <?= $jobDesignation['label'] ?>
+                            </label>
+                        </div>
+                       <?php } ?>
+                    </div>  
+            </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group">
                     <div class="col-sm-4 col-sm-offset-2">
