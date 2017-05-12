@@ -28,7 +28,7 @@
                         <th scope="col"><?= $this->Paginator->sort('email') ?></th>
                         <th scope="col"><?= $this->Paginator->sort('phone') ?></th>
                         <th scope="col"><?= $this->Paginator->sort('status') ?></th>
-                        <!-- <th scope="col" class="actions"><?= __('Actions') ?></th> -->
+                        <th scope="col" class="actions"><?= __('Actions') ?></th> 
                     </tr>
                     </thead>
                     <tbody>
@@ -36,13 +36,13 @@
                     foreach ($users as $key => $user): ?>
                         <tr>
                             <td><?= $key+1 ?></td>
-                            <td><?= $user->has('role') ? $this->Html->link($user->role->name, ['controller' => 'Roles', 'action' => 'view', $user->role->label]) : '' ?></td>
+                            <td><?= h($user->role->name)?></td>
                             <td><?= h($user->first_name) ?></td>
                             <td><?= h($user->last_name) ?></td>
                             <td><?= h($user->username) ?></td>
                             <td><?= h($user->email) ?></td>
                             <td><?= h($user->phone) ?></td>
-                            <td><?= h($user->status) ?></td>
+                            <td><?= h($user->status)?'Active':'Inactive' ?></td>
                             <td class="actions">
                             <?= '<a href='.$this->Url->build(['controller'=>'integrateideas/user/users','action' => 'view', $user->id]).' class="btn btn-xs btn-success">' ?>
                                 <i class="fa fa-eye fa-fw"></i>
