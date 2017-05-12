@@ -49,9 +49,9 @@
                 <li><?= $this->Html->link(__('Add Competency'), ['controller'=>'competencies','action' => 'add']) ?></li>
                 </ul>
                     <?php } else {?>
-            <li>
+            <!-- <li>
                 <?= $this->Html->link(__('Dashboard'), ['controller'=>'users/employeeDashboard','action' => 'index']) ?>
-            </li>
+            </li> -->
             <!-- <li class="<?php //echo $mnu_setting;?>">
                 <a href="#"><span class="nav-label">Interface</span><span class="fa arrow"></span> </a>
                 <ul class="nav nav-second-level">

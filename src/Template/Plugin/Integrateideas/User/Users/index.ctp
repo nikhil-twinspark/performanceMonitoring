@@ -1,22 +1,9 @@
-<!-- <div class="row"> -->
+<div class="wrapper wrapper-content animated fadeInRight">
 <div class="row">
-    <div class="col-lg-6">
-    <div class="lead">
-    <p>Hello <strong> <?= $loggedInUser['first_name'] ?></strong>,</p> 
-    <p><small>Welcome to CAPview.</small></p>
-    </div>
-    </div>
-</div>
     <div class="col-lg-12">
         <div class="hpanel">
             <div class="panel-body">
-            <div class="text-right">
-                                <?=$this->Html->link('Add New User', ['controller' => 'integrateideas/user/users', 'action' => 'add'],['class' => ['btn', 'btn-success']])?>
-                    </div>
-                    <br>
-                    <h5>This is the list of all the users of this software here at Twinspark. You can add, edit or delete a user as per requirement.</h5>
-                    <br>
-                 <div class="table-responsive">
+                <div class="table-responsive">
                 <table cellpadding="1" cellspacing="1" class="table table-bordered table-striped">
                     <thead>
                     <tr>
@@ -28,15 +15,14 @@
                         <th scope="col"><?= $this->Paginator->sort('email') ?></th>
                         <th scope="col"><?= $this->Paginator->sort('phone') ?></th>
                         <th scope="col"><?= $this->Paginator->sort('status') ?></th>
-                        <!-- <th scope="col" class="actions"><?= __('Actions') ?></th> -->
+                        <th scope="col" class="actions"><?= __('Actions') ?></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <?php
-                    foreach ($users as $key => $user): ?>
+                    <?php foreach ($users as $key => $user): ?>
                         <tr>
-                            <td><?= $key+1 ?></td>
-                            <td><?= $user->has('role') ? $this->Html->link($user->role->name, ['controller' => 'Roles', 'action' => 'view', $user->role->label]) : '' ?></td>
+                            <td><?= $this->Number->format($key+1) ?></td>
+                            <td><?= $user->has('role') ? $this->Html->link($user->role->name, ['controller' => 'Roles', 'action' => 'view', $user->role->id]) : '' ?></td>
                             <td><?= h($user->first_name) ?></td>
                             <td><?= h($user->last_name) ?></td>
                             <td><?= h($user->username) ?></td>
@@ -46,18 +32,21 @@
                             <td class="actions">
                             <?= '<a href='.$this->Url->build(['controller'=>'integrateideas/user/users','action' => 'view', $user->id]).' class="btn btn-xs btn-success">' ?>
                                 <i class="fa fa-eye fa-fw"></i>
+                                <!-- <li><?= $this->Html->link(__('Add User'), ['controller'=>'integrateideas/user/users','action' => 'add']) ?></li> -->
                             </a>
-                            <?= '<a href='.$this->Url->build(['controller'=>'integrateideas/user/users','action' => 'edit', $user->id]).' class="btn btn-xs btn-warning"">' ?>
+                            <?= '<a href='.$this->Url->build(['action' => 'edit', $user->id]).' class="btn btn-xs btn-warning"">' ?>
                                 <i class="fa fa-pencil fa-fw"></i>
                             </a>
-                            <?= $this->Form->postLink(__(''), ['controller'=>'integrateideas/user/users','action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id), 'class' => ['btn', 'btn-sm', 'btn-danger', 'fa', 'fa-trash-o', 'fa-fh']]) ?>
+                            <?= $this->Form->postLink(__(''), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id), 'class' => ['btn', 'btn-sm', 'btn-danger', 'fa', 'fa-trash-o', 'fa-fh']]) ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
                 </table>
                 </div>
+
             </div>
         </div>
     </div>
-<!-- </div> -->
+</div>
+</div>
