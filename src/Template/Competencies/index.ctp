@@ -3,6 +3,12 @@
         <div class="col-lg-12">
             <div class="hpanel">
                 <div class="panel-body">
+                <div class="text-right">
+                                <?=$this->Html->link('Add New Competency', ['controller' => 'competencies', 'action' => 'add'],['class' => ['btn', 'btn-success']])?>
+                    </div>
+                    <br>
+                    <h5>This is the list of all the Competencies required to perform efficiently here at Twinspark. You can add, edit or delete a Competency as per requirement.</h5>
+                    <br>
                     <div class="table-responsive">
                         <table cellpadding="1" cellspacing="1" class="table table-bordered table-striped">
                             <thead>
