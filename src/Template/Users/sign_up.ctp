@@ -16,7 +16,7 @@
                 <div class="form-group">
                 <?= $this->Form->label('last_name', __('Last Name'), ['class' => ['col-sm-2', 'control-label']]); ?>
                     <div class="col-sm-10">
-                        <?= $this->Form->input('last_name', ['label' => false,'required' => true,'class' => ['form-control m-b'],'type'=>'email']); ?>
+                        <?= $this->Form->input('last_name', ['label' => false,'required' => true,'class' => ['form-control m-b']]); ?>
                     </div>
                 </div>
                 <div class="hr-line-dashed"></div>
