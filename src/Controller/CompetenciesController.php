@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
+use Cake\Collection\Collection;
 
 /**
  * Competencies Controller
@@ -54,17 +55,25 @@ class CompetenciesController extends AppController
     public function add()
     {
         $competency = $this->Competencies->newEntity();
-        $JobDesignation = TableRegistry::get('JobDesignations');
-        $designations = $JobDesignation->find()->combine('id','label')->toArray();
+        $this->loadModel('JobDesignations');
+        $JobDesignations = $this->JobDesignations->find()
+                                                ->all()
+                                                ->toArray();
+        $selectedJobDesignationData = [];
         if ($this->request->is('post')) {
-            $competency = $this->Competencies->patchEntity($competency, $this->request->data);
+            $selectedJobDesignationId = $this->request->data['job_designation_id'];
+            foreach ($selectedJobDesignationId as $key => $value) {
+                $selectedJobDesignationData[]['job_designation_id'] = $value;
+            }
+            $data = ['text' => $this->request->data['text'],
+                      'maximum_level' => $this->request->data['maximum_level'],
+                      'description' => $this->request->data['description'],
+                      'job_designation_competencies' => $selectedJobDesignationData
+                      ];
+            $competency = $this->Competencies->newEntity($data, ['associated' =>['JobDesignationCompetencies']]);          
+            $competency = $this->Competencies->patchEntity($competency, $data, ['associated' =>['JobDesignationCompetencies']]);
             if(!$competency->errors()){
-                if ($this->Competencies->save($competency)){
-                $data = ['job_designation_id'=>$this->Competencies->save($competency)['designation_id'] ,'competency_id'=>$this->Competencies->save($competency)['id']];
-                $this->loadModel('JobDesignationCompetencies');
-                $JobDesignationCompetencyData = $this->JobDesignationCompetencies->newEntity();
-                $JobDesignationCompetencyData = $this->JobDesignationCompetencies->patchEntity($JobDesignationCompetencyData,$data);
-                $this->JobDesignationCompetencies->save($JobDesignationCompetencyData);
+                if ($this->Competencies->save($competency,['associated' =>['JobDesignationCompetencies']])){
                 $this->Flash->success(__('The competency has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -72,7 +81,7 @@ class CompetenciesController extends AppController
             }
             $this->Flash->error(__('The competency could not be saved. Please, try again.'));
         }
-        $this->set('designations', $designations);
+        $this->set('JobDesignations', $JobDesignations);
         $this->set(compact('competency'));
         $this->set('_serialize', ['competency']);
     }
@@ -87,29 +96,65 @@ class CompetenciesController extends AppController
     public function edit($id = null)
     {
         $competency = $this->Competencies->get($id, [
-            'contain' => []
+            'contain' => ['JobDesignationCompetencies']
         ]);
-        $JobDesignation = TableRegistry::get('JobDesignations');
-        $designations = $JobDesignation->find()->combine('id','label')->toArray();
+        if(isset($competency->job_designation_competencies)){
+            $competency->job_designation_competencies = (new Collection($competency->job_designation_competencies))->extract('job_designation_id')->toArray();
+        }else{
+            $competency->job_designation_competencies = [];
+        }
+        $this->loadModel('JobDesignations');
+        $jobDesignations = $this->JobDesignations->find()
+                                            ->all()
+                                            ->toArray();
+        $selectedJobDesignationData = [];
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $competency = $this->Competencies->patchEntity($competency, $this->request->data);
-            if(!$competency->errors()){
-                if ($this->Competencies->save($competency)){
-                $data = ['job_designation_id'=>$this->Competencies->save($competency)['designation_id'] ,'competency_id'=>$this->Competencies->save($competency)['id']];
-                $this->loadModel('JobDesignationCompetencies');
-                $JobDesignationCompetencyData = $this->JobDesignationCompetencies->newEntity();
-                $JobDesignationCompetencyData = $this->JobDesignationCompetencies->patchEntity($JobDesignationCompetencyData,$data);
-                $this->JobDesignationCompetencies->save($JobDesignationCompetencyData);
+            $selectedJobDesignationId = $this->request->data['job_designation_id'];
+            foreach ($selectedJobDesignationId as $key => $value) {
+                $selectedJobDesignationData[]['job_designation_id'] = $value;
+            }
+            $data = ['text' => $this->request->data['text'],
+                      'maximum_level' => $this->request->data['maximum_level'],
+                      'description' => $this->request->data['description'],
+                      'job_designation_competencies' => $selectedJobDesignationData
+                      ];
+            $competency = $this->Competencies->patchEntity($competency,$data, ['associated' => ['JobDesignationCompetencies']]);
+                if ($this->Competencies->save($competency, ['associated' => ['JobDesignationCompetencies']])){
                 $this->Flash->success(__('The competency has been saved.'));
-
                 return $this->redirect(['action' => 'index']);
                 }    
-            }
             $this->Flash->error(__('The competency could not be saved. Please, try again.'));
         }
-        $this->set('designations', $designations);
+        $this->set('jobDesignations', $jobDesignations);
         $this->set(compact('competency'));
         $this->set('_serialize', ['competency']);
+    }
+
+    public function e($id = null)
+    {   
+        $selectedCompitancyData = [];
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $selectedCompitancyId = $this->request->data['compitancy'];
+            foreach ($selectedCompitancyId as $key => $value) {
+                $selectedCompitancyData[]['competency_id']=$value;   
+            }
+            $name = strtolower($this->request->data['label']);
+            $data = ['name' => $name,
+                      'label' => $this->request->data['label'],
+                      'job_designation_competencies'=>$selectedCompitancyData
+                  ];
+            
+            $jobDesignation = $this->JobDesignations->patchEntity($jobDesignation,$data,['associated' => ['JobDesignationCompetencies']]);
+            if ($this->JobDesignations->save($jobDesignation, ['associated' => ['JobDesignationCompetencies']])) {
+                $this->Flash->success(__('The job designation has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The job designation could not be saved. Please, try again.'));
+        }
+        $this->set('competencies', $competencies);
+        $this->set(compact('jobDesignation'));
+        $this->set('_serialize', ['jobDesignation']);
     }
 
     /**

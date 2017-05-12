@@ -13,30 +13,41 @@
             <li>
                 <?= $this->Html->link(__('Dashboard'), ['controller'=>'users/adminDashboard','action' => 'index']) ?>
             </li>
+
             <li>
-                <a href="#"><span class="nav-label">Interface</span><span class="fa arrow"></span> </a>
+                <a href="#"><span class="nav-label">Users</span><span class="fa arrow"></span> </a>
                 <ul class="nav nav-second-level">
-                    <li class="">
-                        <a href="#">Users<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                            <li><?= $this->Html->link(__('View All'), ['controller'=>'users/adminDashboard','action' => 'index']) ?></li>
-                            <li><?= $this->Html->link(__('Add User'), ['controller'=>'integrateideas/user/users','action' => 'add']) ?></li>
-                            </ul>
-                    </li>
-                    <?php } elseif($sideNavData['role_name']== "manager") {?>
+                    <li><?= $this->Html->link(__('View All'), ['controller'=>'users/adminDashboard','action' => 'index']) ?></li>
+                    <li><?= $this->Html->link(__('Add User'), ['controller'=>'integrateideas/user/users','action' => 'add']) ?></li>
+                </ul>
+                <a href="#"><span class="nav-label">Job Designation</span><span class="fa arrow"></span> </a>
+                <ul class="nav nav-second-level">
+                    <li><?= $this->Html->link(__('View All'), ['controller'=>'jobDesignations','action' => 'index']) ?></li>
+                    <li><?= $this->Html->link(__('Add Job Designation'), ['controller'=>'jobDesignations','action' => 'add']) ?></li>
+                </ul>
+                <a href="#"><span class="nav-label">Competency</span><span class="fa arrow"></span> </a>
+                <ul class="nav nav-second-level">
+                <li><?= $this->Html->link(__('View All'), ['controller'=>'competencies','action' => 'index']) ?></li>
+                <li><?= $this->Html->link(__('Add Competency'), ['controller'=>'competencies','action' => 'add']) ?></li>
+                </ul>
+            </li>
+
+            <li>
+            <?php } elseif($sideNavData['role_name']== "manager") {?>
             <li>
                 <?= $this->Html->link(__('Dashboard'), ['controller'=>'users/managementDashboard','action' => 'index']) ?>
             </li>
             <li>
-                <a href="#"><span class="nav-label">Interface</span><span class="fa arrow"></span> </a>
+                <a href="#"><span class="nav-label">Job Designation</span><span class="fa arrow"></span> </a>
                 <ul class="nav nav-second-level">
-                    <li class="">
-                        <a href="#">Users<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                            <li><?= $this->Html->link(__('View All'), ['controller'=>'users/managementDashboard','action' => 'index']) ?></li>
-                            <li><?= $this->Html->link(__('Add User'), ['controller'=>'integrateideas/user/users','action' => 'add']) ?></li>
-                            </ul>
-                    </li>
+                    <li><?= $this->Html->link(__('View All'), ['controller'=>'jobDesignations','action' => 'index']) ?></li>
+                    <li><?= $this->Html->link(__('Add Job Designation'), ['controller'=>'jobDesignations','action' => 'add']) ?></li>
+                </ul>
+                <a href="#"><span class="nav-label">Competency</span><span class="fa arrow"></span> </a>
+                <ul class="nav nav-second-level">
+                <li><?= $this->Html->link(__('View All'), ['controller'=>'competencies','action' => 'index']) ?></li>
+                <li><?= $this->Html->link(__('Add Competency'), ['controller'=>'competencies','action' => 'add']) ?></li>
+                </ul>
                     <?php } else {?>
             <li>
                 <?= $this->Html->link(__('Dashboard'), ['controller'=>'users/employeeDashboard','action' => 'index']) ?>

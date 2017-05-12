@@ -41,7 +41,8 @@ class CompetenciesTable extends Table
         $this->addBehavior('Timestamp');
 
         $this->hasMany('JobDesignationCompetencies', [
-            'foreignKey' => 'competency_id'
+            'foreignKey' => 'competency_id',
+            'saveStrategy' => 'replace'
         ]);
     }
 

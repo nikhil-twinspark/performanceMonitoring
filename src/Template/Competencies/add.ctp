@@ -27,13 +27,19 @@
                        <?= $this->Form->input('description', ['label' => false,'class' => ['form-control']]); ?>
                     </div>  
             </div>
-            <div class="hr-line-dashed"></div>
-                <div class="form-group">
-                    <?= $this->Form->label('name', __('Job Designation'), ['class' => ['col-sm-2', 'control-label']]); ?>
+            <div class="form-group">
+                <?= $this->Form->label('Tags', 'Associated Job Designations', ['class' => ['col-sm-2', 'control-label'],]); ?>
                     <div class="col-sm-10">
-                       <?= $this->Form->input('designation_id', ['label' => false, 'required' => true, 'class' => ['form-control']]); ?>
-                    </div>
-            </div> 
+                    <?php foreach ($JobDesignations as $JobDesignation) { ?>
+                        <div class="checkbox i-checks">
+                            <label title="<?= $JobDesignation['label'] ?>" >
+                                <input type="checkbox" name= "job_designation_id[<?= $JobDesignation['id'] ?>]"  value = '<?= $JobDesignation['id']  ?>'>
+                                <?= $JobDesignation['label'] ?>
+                            </label>
+                        </div>
+                       <?php } ?>   
+                       </div>
+            </div>           
             <div class="hr-line-dashed"></div>
             <div class="form-group">
                     <div class="col-sm-4 col-sm-offset-2">

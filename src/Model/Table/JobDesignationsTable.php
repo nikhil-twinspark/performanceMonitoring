@@ -43,6 +43,10 @@ class JobDesignationsTable extends Table
         $this->hasMany('UserJobDesignations', [
             'foreignKey' => 'job_designation_id'
         ]);
+        $this->hasMany('JobDesignationCompetencies', [
+            'foreignKey' => 'job_designation_id',
+            'saveStrategy' => 'replace'
+        ]);
     }
 
     /**
