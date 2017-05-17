@@ -11,8 +11,10 @@ use Cake\ORM\Entity;
  * @property string $label
  * @property \Cake\I18n\Time $created
  * @property \Cake\I18n\Time $modified
+ * @property \Cake\I18n\Time $is_deleted
  *
  * @property \App\Model\Entity\UserJobDesignation[] $user_job_designations
+ * @property \App\Model\Entity\JobDesignationCompetency[] $job_designation_competencies
  */
 class JobDesignation extends Entity
 {

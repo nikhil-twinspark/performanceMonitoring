@@ -12,6 +12,7 @@
                         <th scope="col"><?= $this->Paginator->sort('first_name') ?></th>
                         <th scope="col"><?= $this->Paginator->sort('last_name') ?></th>
                         <th scope="col"><?= $this->Paginator->sort('username') ?></th>
+                        <th scope="col"><?= __('Job Designation') ?></th>
                         <th scope="col"><?= $this->Paginator->sort('email') ?></th>
                         <th scope="col"><?= $this->Paginator->sort('phone') ?></th>
                         <th scope="col"><?= $this->Paginator->sort('status') ?></th>
@@ -19,13 +20,20 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($users as $key => $user): ?>
+                    <?php foreach ($users as $key => $user){
+                        $jobDesignation[$key] = $userJobDesig; 
+                        } ?>
                         <tr>
+                        <!-- foreach ($variable as $key => $value) {
+                            # code...
+                            $dusra[$key]
+                        } -->
                             <td><?= $this->Number->format($key+1) ?></td>
                             <td><?= $user->has('role') ? $this->Html->link($user->role->name, ['controller' => 'Roles', 'action' => 'view', $user->role->id]) : '' ?></td>
                             <td><?= h($user->first_name) ?></td>
                             <td><?= h($user->last_name) ?></td>
                             <td><?= h($user->username) ?></td>
+                            <td><?= h($jobDesignation->toArray()) ?></td>
                             <td><?= h($user->email) ?></td>
                             <td><?= h($user->phone) ?></td>
                             <td><?= h($user->status) ?></td>

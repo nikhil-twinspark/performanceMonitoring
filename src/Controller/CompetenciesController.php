@@ -130,33 +130,6 @@ class CompetenciesController extends AppController
         $this->set('_serialize', ['competency']);
     }
 
-    public function e($id = null)
-    {   
-        $selectedCompitancyData = [];
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $selectedCompitancyId = $this->request->data['compitancy'];
-            foreach ($selectedCompitancyId as $key => $value) {
-                $selectedCompitancyData[]['competency_id']=$value;   
-            }
-            $name = strtolower($this->request->data['label']);
-            $data = ['name' => $name,
-                      'label' => $this->request->data['label'],
-                      'job_designation_competencies'=>$selectedCompitancyData
-                  ];
-            
-            $jobDesignation = $this->JobDesignations->patchEntity($jobDesignation,$data,['associated' => ['JobDesignationCompetencies']]);
-            if ($this->JobDesignations->save($jobDesignation, ['associated' => ['JobDesignationCompetencies']])) {
-                $this->Flash->success(__('The job designation has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The job designation could not be saved. Please, try again.'));
-        }
-        $this->set('competencies', $competencies);
-        $this->set(compact('jobDesignation'));
-        $this->set('_serialize', ['jobDesignation']);
-    }
-
     /**
      * Delete method
      *

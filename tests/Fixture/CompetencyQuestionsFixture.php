@@ -4,10 +4,10 @@ namespace App\Test\Fixture;
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
- * QuestionsFixture
+ * CompetencyQuestionsFixture
  *
  */
-class QuestionsFixture extends TestFixture
+class CompetencyQuestionsFixture extends TestFixture
 {
 
     /**
@@ -18,9 +18,8 @@ class QuestionsFixture extends TestFixture
     // @codingStandardsIgnoreStart
     public $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
-        'text' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
-        'response_group_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
-        'level_no' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'competency_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'question_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
         'modified' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
         '_constraints' => [
@@ -41,11 +40,10 @@ class QuestionsFixture extends TestFixture
     public $records = [
         [
             'id' => 1,
-            'text' => 'Lorem ipsum dolor sit amet',
-            'response_group_id' => 1,
-            'level_no' => 1,
-            'created' => '2017-05-17 07:26:52',
-            'modified' => '2017-05-17 07:26:52'
+            'competency_id' => 1,
+            'question_id' => 1,
+            'created' => '2017-05-17 07:15:41',
+            'modified' => '2017-05-17 07:15:41'
         ],
     ];
 }

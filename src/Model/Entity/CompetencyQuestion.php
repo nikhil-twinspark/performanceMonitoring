@@ -4,19 +4,18 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Question Entity
+ * CompetencyQuestion Entity
  *
  * @property int $id
- * @property string $text
- * @property int $response_group_id
- * @property int $level_no
+ * @property int $competency_id
+ * @property int $question_id
  * @property \Cake\I18n\Time $created
  * @property \Cake\I18n\Time $modified
  *
- * @property \App\Model\Entity\ResponseGroup $response_group
- * @property \App\Model\Entity\CompetencyQuestion $competency_question
+ * @property \App\Model\Entity\Competency $competency
+ * @property \App\Model\Entity\Question $question
  */
-class Question extends Entity
+class CompetencyQuestion extends Entity
 {
 
     /**

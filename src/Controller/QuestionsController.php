@@ -22,6 +22,11 @@ class QuestionsController extends AppController
             'contain' => ['ResponseGroups']
         ];
         $questions = $this->paginate($this->Questions);
+        $questions = $this->Questions->find()
+                                     ->contain('CompetencyQuestions.Competencies')
+                                     ->groupBy('competency_id')
+                                     ->toArray();
+        // pr($questions);die;
 
         $this->set(compact('questions'));
         $this->set('_serialize', ['questions']);

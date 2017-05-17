@@ -15,6 +15,7 @@
                             <dl class="dl-horizontal">
                                 <dt><?= __('Designation Name') ?>:</dt> <dd> <?= h($jobDesignation->name) ?> </dd>
                                 <dt><?= __('Designation Label') ?>:</dt> <dd> <?= h($jobDesignation->label) ?> </dd>
+                                <dt><?= __('Related Competencies') ?>:</dt> <dd> <?= h(implode(",",$relCompetency)) ?> </dd>
                                 <dt><?= __('Designation Id') ?>:</dt> <dd> <?= $this->Number->format($jobDesignation->id) ?> </dd>
                                 <dt><?= __('Created') ?>:</dt> <dd> <?= h($jobDesignation->created) ?> </dd>
                                 <dt><?= __('Modified') ?>:</dt> <dd><?= h($jobDesignation->modified) ?></dd>
