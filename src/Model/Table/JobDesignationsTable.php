@@ -35,9 +35,9 @@ class JobDesignationsTable extends Table
     {
         parent::initialize($config);
 
-        $this->addBehavior('Muffin/Trash.Trash', [
-            'field' => 'is_deleted'
-        ]);
+        // $this->addBehavior('Muffin/Trash.Trash', [
+        //     'field' => 'is_deleted'
+        // ]);
         $this->table('job_designations');
         $this->displayField('name');
         $this->primaryKey('id');
