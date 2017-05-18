@@ -34,9 +34,14 @@ class JobDesignationsController extends AppController
     public function view($id = null)
     {
         $jobDesignation = $this->JobDesignations->get($id, [
-            'contain' => ['UserJobDesignations']
+            'contain' => ['UserJobDesignations','JobDesignationCompetencies.Competencies']
         ]);
 
+        $relatedCompetencies = new Collection($jobDesignation['job_designation_competencies']);
+        $relCompetency =  $relatedCompetencies->extract('competency.text');
+        $relCompetency = $relCompetency->toArray();
+
+        $this->set('relCompetency', $relCompetency);
         $this->set('jobDesignation', $jobDesignation);
         $this->set('_serialize', ['jobDesignation']);
     }

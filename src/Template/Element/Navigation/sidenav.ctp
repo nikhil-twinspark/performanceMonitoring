@@ -30,6 +30,11 @@
                 <li><?= $this->Html->link(__('View All'), ['controller'=>'competencies','action' => 'index']) ?></li>
                 <li><?= $this->Html->link(__('Add Competency'), ['controller'=>'competencies','action' => 'add']) ?></li>
                 </ul>
+                <a href="#"><span class="nav-label">Questions</span><span class="fa arrow"></span> </a>
+                <ul class="nav nav-second-level">
+                <li><?= $this->Html->link(__('View All'), ['controller'=>'questions','action' => 'index']) ?></li>
+                <li><?= $this->Html->link(__('Add Question'), ['controller'=>'questions','action' => 'add']) ?></li>
+                </ul>
             </li>
 
             <li>
@@ -49,6 +54,7 @@
                 <li><?= $this->Html->link(__('Add Competency'), ['controller'=>'competencies','action' => 'add']) ?></li>
                 </ul>
                     <?php } else {?>
+            
                 <?php } ?>    
                 </ul>
             </li>

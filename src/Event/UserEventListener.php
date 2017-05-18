@@ -18,24 +18,33 @@ class UserEventListener implements EventListenerInterface {
 	    return [
 	        'PerformanceMonitoring.registerUser' => 'onRegistration',
 	        'PerformanceMonitoring.forgotPassword' => 'onforgotPassword',
-	        'PerformanceMonitoring.login' => 'onLogin'
+	        'PerformanceMonitoring.login' => 'onLogin',
+	        'PerformanceMonitoring.applicationData' => 'applicationData'
 	    ];
 	}
 
 	public function onRegistration($event, $data){
+		// pr($data);die;
 		$url = Router::url('/integrateideas/user/users', true);
 		$email_send = new Email();
-		$email_send->setTo($data->email)
-		->setSubject('Register New User')
+		$email_send->to($data->email)
+		->subject('Register New User')
 		->send($url);
 	}
 
 	public function onforgotPassword($event, $data){
-	  $url = Router::url('/integrateideas/user/', true);
-	  $url = $url.'users/resetPassword?reset-token='.$data[0];
-	  $email_send = new Email();
-	  $email_send->setTo($data[1])
-	  ->setSubject('Reset Password Link')
-	  ->send($url);  
+		$url = Router::url('/integrateideas/user/', true);
+		$url = $url.'users/resetPassword?reset-token='.$data[0];
+		$email_send = new Email();
+		$email_send->to($data[1])
+		->subject('Reset Password Link')
+		->send($url);  
+	}
+	public function applicationData($event, $data){
+
+		$user = TableRegistry::get('JobDesignations');
+		$user = $user->find()->combine('id','label')->toArray();
+		// pr($user);die;
+		return $user;
 	}
 }

@@ -25,6 +25,7 @@
                         <th scope="col"><?= $this->Paginator->sort('first_name') ?></th>
                         <th scope="col"><?= $this->Paginator->sort('last_name') ?></th>
                         <th scope="col"><?= $this->Paginator->sort('username') ?></th>
+                        <th scope="col"><?= __('Job Designation') ?></th>
                         <th scope="col"><?= $this->Paginator->sort('email') ?></th>
                         <th scope="col"><?= $this->Paginator->sort('phone') ?></th>
                         <th scope="col"><?= $this->Paginator->sort('status') ?></th>
@@ -40,6 +41,7 @@
                             <td><?= h($user->first_name) ?></td>
                             <td><?= h($user->last_name) ?></td>
                             <td><?= h($user->username) ?></td>
+                            <td><?= h(isset($userJobDesig[$user->id]) ? $userJobDesig[$user->id] : "" ) ?></td>
                             <td><?= h($user->email) ?></td>
                             <td><?= h($user->phone) ?></td>
                             <td><?= h($user->status)?'Active':'Inactive' ?></td>

@@ -22,6 +22,10 @@ class QuestionsController extends AppController
             'contain' => ['ResponseGroups']
         ];
         $questions = $this->paginate($this->Questions);
+        $questions = $this->Questions->find()
+                                     ->contain('CompetencyQuestions.Competencies')
+                                     ->groupBy('competency_id')
+                                     ->toArray();
 
         $this->set(compact('questions'));
         $this->set('_serialize', ['questions']);
@@ -52,9 +56,22 @@ class QuestionsController extends AppController
     public function add()
     {
         $question = $this->Questions->newEntity();
+        $this->loadModel('Competencies');
+        $relatedCompetencies = $this->Competencies->find()
+                                                  ->all();
+
+        $competencies =  $relatedCompetencies->combine('id','text')
+                                             ->toArray();
+
+        $competencyMaxLevel = $relatedCompetencies->combine('id', 'maximum_level')
+                                                ->toArray();
+
         if ($this->request->is('post')) {
-            $question = $this->Questions->patchEntity($question, $this->request->data);
-            if ($this->Questions->save($question)) {
+            $data = $this->request->data;
+            $data['competency_questions'][] = ['competency_id' => $this->request->data['competency_id']];
+            $question = $this->Questions->newEntity($data, ['associated' =>['CompetencyQuestions']]);          
+            $question = $this->Questions->patchEntity($question, $data, ['associated' =>['CompetencyQuestions']]);
+            if ($this->Questions->save($question, ['associated' =>['CompetencyQuestions']])) {
                 $this->Flash->success(__('The question has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -62,6 +79,10 @@ class QuestionsController extends AppController
             $this->Flash->error(__('The question could not be saved. Please, try again.'));
         }
         $responseGroups = $this->Questions->ResponseGroups->find('list', ['limit' => 200]);
+
+        $this->set('competencyMaxLevel', $competencyMaxLevel);
+        $this->set('relatedCompetencies', $relatedCompetencies);
+        $this->set('competencies', $competencies);
         $this->set(compact('question', 'responseGroups'));
         $this->set('_serialize', ['question']);
     }
@@ -78,9 +99,20 @@ class QuestionsController extends AppController
         $question = $this->Questions->get($id, [
             'contain' => []
         ]);
+        $this->loadModel('Competencies');
+        $relatedCompetencies = $this->Competencies->find()
+                                                  ->all();
+
+        $competencies =  $relatedCompetencies->combine('id','text')
+                                             ->toArray();
+
+        $competencyMaxLevel = $relatedCompetencies->combine('id', 'maximum_level')
+                                                ->toArray();
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $question = $this->Questions->patchEntity($question, $this->request->data);
-            if ($this->Questions->save($question)) {
+            $data = $this->request->data;
+            $data['competency_questions'][] = ['competency_id' => $this->request->data['competency_id']];
+            $question = $this->Questions->patchEntity($question, $data, ['associated' =>['CompetencyQuestions']]);
+            if ($this->Questions->save($question, ['associated' =>['CompetencyQuestions']])) {
                 $this->Flash->success(__('The question has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -88,6 +120,10 @@ class QuestionsController extends AppController
             $this->Flash->error(__('The question could not be saved. Please, try again.'));
         }
         $responseGroups = $this->Questions->ResponseGroups->find('list', ['limit' => 200]);
+
+        $this->set('competencyMaxLevel', $competencyMaxLevel);
+        $this->set('relatedCompetencies', $relatedCompetencies);
+        $this->set('competencies', $competencies);
         $this->set(compact('question', 'responseGroups'));
         $this->set('_serialize', ['question']);
     }

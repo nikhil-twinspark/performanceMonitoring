@@ -1,22 +1,22 @@
 <?php
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\QuestionsTable;
+use App\Model\Table\CompetencyQuestionsTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\QuestionsTable Test Case
+ * App\Model\Table\CompetencyQuestionsTable Test Case
  */
-class QuestionsTableTest extends TestCase
+class CompetencyQuestionsTableTest extends TestCase
 {
 
     /**
      * Test subject
      *
-     * @var \App\Model\Table\QuestionsTable
+     * @var \App\Model\Table\CompetencyQuestionsTable
      */
-    public $Questions;
+    public $CompetencyQuestions;
 
     /**
      * Fixtures
@@ -24,14 +24,14 @@ class QuestionsTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.questions',
-        'app.response_groups',
         'app.competency_questions',
         'app.competencies',
         'app.job_designation_competencies',
         'app.job_designations',
         'app.user_job_designations',
-        'app.users'
+        'app.users',
+        'app.questions',
+        'app.response_groups'
     ];
 
     /**
@@ -42,8 +42,8 @@ class QuestionsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Questions') ? [] : ['className' => 'App\Model\Table\QuestionsTable'];
-        $this->Questions = TableRegistry::get('Questions', $config);
+        $config = TableRegistry::exists('CompetencyQuestions') ? [] : ['className' => 'App\Model\Table\CompetencyQuestionsTable'];
+        $this->CompetencyQuestions = TableRegistry::get('CompetencyQuestions', $config);
     }
 
     /**
@@ -53,7 +53,7 @@ class QuestionsTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Questions);
+        unset($this->CompetencyQuestions);
 
         parent::tearDown();
     }

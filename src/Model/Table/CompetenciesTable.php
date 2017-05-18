@@ -34,6 +34,10 @@ class CompetenciesTable extends Table
     {
         parent::initialize($config);
 
+        $this->addBehavior('Muffin/Trash.Trash', [
+            'field' => 'is_deleted'
+        ]);
+
         $this->table('competencies');
         $this->displayField('id');
         $this->primaryKey('id');
@@ -43,6 +47,9 @@ class CompetenciesTable extends Table
         $this->hasMany('JobDesignationCompetencies', [
             'foreignKey' => 'competency_id',
             'saveStrategy' => 'replace'
+        ]);
+        $this->hasMany('CompetencyQuestions', [
+            'foreignKey' => 'question_id'
         ]);
     }
 
@@ -69,6 +76,10 @@ class CompetenciesTable extends Table
 
         $validator
             ->allowEmpty('description');
+
+        $validator
+            ->dateTime('is_deleted')
+            ->allowEmpty('is_deleted');
 
         return $validator;
     }

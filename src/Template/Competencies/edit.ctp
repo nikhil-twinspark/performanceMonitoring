@@ -1,12 +1,12 @@
 <div class="row">
-    <div class="col-lg-12">
-        <div class="ibox float-e-margins">
-            <div class="ibox-title">
-              <legend><?= __('Edit Competency') ?></legend>
-            </div>
-            <div class="ibox-content">
+<div class="col-lg-12">
+    <div class="hpanel">
+        <div class="panel-heading">
+            <?= __('Edit Competency') ?>
+        </div>
+        <div class="panel-body">
             <?= $this->Form->create($competency, ['data-toggle'=>"validator",'class' => 'form-horizontal', 'enctype'=>"multipart/form-data"]) ?>
-             <div class="hr-line-dashed"></div>
+            <div class="hr-line-dashed"></div>
                 <div class="form-group">
                 <?= $this->Form->label('name', __('Competency Name'), ['class' => ['col-sm-2', 'control-label']]); ?>
                     <div class="col-sm-10">
@@ -17,7 +17,7 @@
                 <div class="form-group">
                 <?= $this->Form->label('label', __('Maximum levels in this competency'), ['class' => ['col-sm-2', 'control-label']]); ?>
                     <div class="col-sm-10">
-                       <?= $this->Form->input('maximum_level', ['label' => false,'class' => ['form-control']]); ?>
+                       <?= $this->Form->input('maximum_level', ['min'=>1,'label' => false,'class' => ['form-control']]); ?>
                     </div>  
             </div>
             <div class="hr-line-dashed"></div>
@@ -53,6 +53,7 @@
                     </div>
                 </div> 
             <?= $this->Form->end() ?>
-        </div>        
+        </div>
     </div>
+</div>
 </div>

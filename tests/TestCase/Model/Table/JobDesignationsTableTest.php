@@ -25,7 +25,10 @@ class JobDesignationsTableTest extends TestCase
      */
     public $fixtures = [
         'app.job_designations',
-        'app.user_job_designations'
+        'app.user_job_designations',
+        'app.users',
+        'app.job_designation_competencies',
+        'app.competencies'
     ];
 
     /**

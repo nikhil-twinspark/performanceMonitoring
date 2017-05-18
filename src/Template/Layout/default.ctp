@@ -53,7 +53,7 @@ $cakeDescription = 'CAPview';
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('script') ?>
 </head>
-<body>
+<body class="fixed-navbar fixed-sidebar">
 
     <div class="boxed-wrapper">
         <?= $this->element('Navigation/topnav'); ?>
@@ -63,19 +63,17 @@ $cakeDescription = 'CAPview';
         <?=  $this->Form->hidden('baseUrl',['id'=>'baseUrl','value'=>$this->Url->build('/', true)]); ?>
 
         <div id="wrapper">
-    <!--  Breadcum sidebar -->
-    
-    <div class="content animate-panel">
-        <?= $this->Flash->render('auth', ['element' => 'Flash/error']) ?>
-        <?= $this->Flash->render() ?>
-        <?= $this->fetch('content') ?>
-    </div>
-
-    
-
-    </div>
-
+            <!--  Breadcum sidebar -->
+            <?= $this->element('titleband')?>
+            <div class="content animate-panel">
+                <?= $this->Flash->render('auth', ['element' => 'Flash/error']) ?>
+                <?= $this->Flash->render() ?>
+                <?= $this->fetch('content') ?>
+            </div>
+    <?= $this->element('footer'); ?>
 
 </div>
+</div>
+
 </body>
 </html>

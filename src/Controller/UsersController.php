@@ -49,6 +49,13 @@ class UsersController extends AppController
     }
 
     public function adminDashboard(){
+        $this->loadModel('UserJobDesignations');
+        $userJobDesig = $this->UserJobDesignations->find()
+                                                  ->contain('JobDesignations')
+                                                  ->all()
+                                                  ->combine('user_id', 'job_designation.label')
+                                                  ->toArray();
+
         $loggedInUser = $this->Auth->user();
         if($loggedInUser['role']->name == self::SUPER_ADMIN_LABEL){
         $controller = new Controller;
@@ -56,6 +63,7 @@ class UsersController extends AppController
         $roleLabel = self::SUPER_ADMIN_LABEL;
         $users = $this->Users->find()->contain(['Roles'])->all();
         }
+        $this->set('userJobDesig', $userJobDesig);
         $this->set('loggedInUser', $loggedInUser);
         $this->set('users', $users);
         $this->set('_serialize', ['users']);
@@ -100,6 +108,12 @@ class UsersController extends AppController
         $this->loadModel('JobDesignations');
         $jobDesignations = $this->JobDesignations->find()->combine('id','label')->toArray();
         if ($this->request->is('post')) {
+            $email = $this->request->data['email'];
+            list ($user, $domain) = explode('@', $email);
+            $isTwinsparkMail = ($domain == 'twinspark.co');
+            if($isTwinsparkMail){
+            $userTable = $this->loadModel('Integrateideas/User.Users');
+            $user = $userTable->newEntity();
             $user = $userTable->patchEntity($user, $this->request->data);
             if(!$user->errors()){
             if ($userTable->save($user)) {
@@ -120,6 +134,9 @@ class UsersController extends AppController
           }else{
             $this->Flash->error(__('KINDLY_PROVIDE_VALID_DATA'));
           }
+        }else{
+           $this->Flash->error(__('Email id should be @twinspark.co')); 
+        }
       }
     $this->set('jobDesignations', $jobDesignations);
     $this->set('roles', $roles);

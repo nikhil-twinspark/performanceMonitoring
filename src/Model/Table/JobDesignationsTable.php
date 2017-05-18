@@ -9,6 +9,7 @@ use Cake\Validation\Validator;
 /**
  * JobDesignations Model
  *
+ * @property \Cake\ORM\Association\HasMany $JobDesignationCompetencies
  * @property \Cake\ORM\Association\HasMany $UserJobDesignations
  *
  * @method \App\Model\Entity\JobDesignation get($primaryKey, $options = [])
@@ -34,18 +35,20 @@ class JobDesignationsTable extends Table
     {
         parent::initialize($config);
 
+        $this->addBehavior('Muffin/Trash.Trash', [
+            'field' => 'is_deleted'
+        ]);
         $this->table('job_designations');
         $this->displayField('name');
         $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
 
-        $this->hasMany('UserJobDesignations', [
+        $this->hasMany('JobDesignationCompetencies', [
             'foreignKey' => 'job_designation_id'
         ]);
-        $this->hasMany('JobDesignationCompetencies', [
-            'foreignKey' => 'job_designation_id',
-            'saveStrategy' => 'replace'
+        $this->hasMany('UserJobDesignations', [
+            'foreignKey' => 'job_designation_id'
         ]);
     }
 
@@ -68,6 +71,10 @@ class JobDesignationsTable extends Table
         $validator
             ->requirePresence('label', 'create')
             ->notEmpty('label');
+
+        $validator
+            ->dateTime('is_deleted')
+            ->allowEmpty('is_deleted');
 
         return $validator;
     }

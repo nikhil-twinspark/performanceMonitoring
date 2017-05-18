@@ -22,6 +22,7 @@ class JobDesignationsFixture extends TestFixture
         'label' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
         'modified' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
+        'is_deleted' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
         ],
@@ -42,8 +43,9 @@ class JobDesignationsFixture extends TestFixture
             'id' => 1,
             'name' => 'Lorem ipsum dolor sit amet',
             'label' => 'Lorem ipsum dolor sit amet',
-            'created' => '2017-05-03 14:06:16',
-            'modified' => '2017-05-03 14:06:16'
+            'created' => '2017-05-16 13:38:39',
+            'modified' => '2017-05-16 13:38:39',
+            'is_deleted' => '2017-05-16 13:38:39'
         ],
     ];
 }

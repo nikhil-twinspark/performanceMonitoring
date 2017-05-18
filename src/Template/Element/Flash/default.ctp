@@ -1,10 +1,4 @@
-<?php
-$class = 'message';
-if (!empty($params['class'])) {
-    $class .= ' ' . $params['class'];
-}
-if (!isset($params['escape']) || $params['escape'] !== false) {
-    $message = h($message);
-}
-?>
-<div class="<?= h($class) ?>" onclick="this.classList.add('hidden');"><?= $message ?></div>
+<div class="alert alert-info alert-dismissable" onclick="this.classList.add('hidden');">
+	<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+	<?= h($message) ?>
+</div>
