@@ -48,6 +48,9 @@ class CompetenciesTable extends Table
             'foreignKey' => 'competency_id',
             'saveStrategy' => 'replace'
         ]);
+        $this->hasMany('CompetencyQuestions', [
+            'foreignKey' => 'question_id'
+        ]);
     }
 
     /**

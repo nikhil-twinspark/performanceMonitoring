@@ -46,7 +46,8 @@ class QuestionsTable extends Table
             'joinType' => 'INNER'
         ]);
         $this->hasMany('CompetencyQuestions', [
-            'foreignKey' => 'question_id'
+            'foreignKey' => 'question_id',
+            'saveStrategy' => 'replace'
         ]);
     }
 

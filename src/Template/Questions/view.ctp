@@ -1,43 +1,41 @@
-<?php
-/**
-  * @var \App\View\AppView $this
-  */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Question'), ['action' => 'edit', $question->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Question'), ['action' => 'delete', $question->id], ['confirm' => __('Are you sure you want to delete # {0}?', $question->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Questions'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Question'), ['action' => 'add']) ?> </li>
-    </ul>
-</nav>
-<div class="questions view large-9 medium-8 columns content">
-    <h3><?= h($question->id) ?></h3>
-    <table class="vertical-table">
-        <tr>
-            <th scope="row"><?= __('Text') ?></th>
-            <td><?= h($question->text) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Id') ?></th>
-            <td><?= $this->Number->format($question->id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Response Group Id') ?></th>
-            <td><?= $this->Number->format($question->response_group_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Level No') ?></th>
-            <td><?= $this->Number->format($question->level_no) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Created') ?></th>
-            <td><?= h($question->created) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Modified') ?></th>
-            <td><?= h($question->modified) ?></td>
-        </tr>
-    </table>
+<div class = "row">
+    <div class="col-lg-12">
+        <div class="hpanel">
+            <div class="panel-body">
+                <div class="wrapper wrapper-content animated fadeInUp">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="m-b-md">
+                                    </div>
+                                    <dl class="dl-horizontal">
+                                    <dt><?= __('Competency Name') ?>:</dt> 
+                                        <dd>
+                                            <span class="label label-success"><?= h($question->text) ?></span>
+                                        </dd>
+                                    </dl> 
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <dl class="dl-horizontal">
+                                        <dt><?= __('Question Id') ?>:</dt> <dd> <?= $this->Number->format($question->id) ?> </dd>
+                                        <dt><?= __('Level Number') ?>:</dt> <dd> <?= $this->Number->format($question->level_no)?> </dd>
+                                        <dt><?= __('Created') ?>:</dt> <dd> <?= h($question->created) ?> </dd>
+                                        <dt><?= __('Modified') ?>:</dt> <dd><?= h($question->modified) ?></dd>
+                                    </dl>
+                                </div>
+                            </div> 
+                            <div class="row">
+                                <div class="col-lg-12 text-center">
+                                    <?= $this->Html->link('Back',$this->request->referer(),['class' => ['btn', 'btn-warning']]);?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
