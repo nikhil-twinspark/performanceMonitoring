@@ -23,6 +23,7 @@ class CompetenciesFixture extends TestFixture
         'description' => ['type' => 'string', 'length' => 500, 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
         'modified' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
+        'is_deleted' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
         ],
@@ -44,8 +45,9 @@ class CompetenciesFixture extends TestFixture
             'text' => 'Lorem ipsum dolor sit amet',
             'maximum_level' => 1,
             'description' => 'Lorem ipsum dolor sit amet',
-            'created' => '2017-05-09 09:06:14',
-            'modified' => '2017-05-09 09:06:14'
+            'created' => '2017-05-19 02:14:30',
+            'modified' => '2017-05-19 02:14:30',
+            'is_deleted' => '2017-05-19 02:14:30'
         ],
     ];
 }

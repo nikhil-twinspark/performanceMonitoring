@@ -13,8 +13,8 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\Time $modified
  * @property \Cake\I18n\Time $is_deleted
  *
- * @property \App\Model\Entity\UserJobDesignation[] $user_job_designations
  * @property \App\Model\Entity\JobDesignationCompetency[] $job_designation_competencies
+ * @property \App\Model\Entity\UserJobDesignation[] $user_job_designations
  */
 class JobDesignation extends Entity
 {

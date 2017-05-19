@@ -87,13 +87,24 @@ class UsersController extends AppController
 
     public function employeeDashboard(){
         $loggedInUser = $this->Auth->user();
+        $this->loadModel('UserJobDesignations');
+        $jobDesignationId = $this->UserJobDesignations->findByUserId($loggedInUser['id'])
+                                                      ->first();
+        // pr($jobDesignationId['job_designation_id']);die;
         if($loggedInUser['role']->name == self::EMPLOYEES_LABEL){
         $this->loadModel('Integrateideas/User.Users');
         $roleLabel = self::EMPLOYEES_LABEL;
-        $users = $this->Users->find()->contain(['Roles' => function($q)use($roleLabel){
-            return $q->where(['Roles.name' => $roleLabel]);
+        $users = $this->Users
+                      ->find()
+                      ->contain(['Roles' => function($q)use($roleLabel){
+                                    return $q->where(['Roles.name' => $roleLabel]);
+                        }])->all();
 
-        }])->all();
+        $this->loadModel('JobDesignationCompetencies');
+        $surveyData = $this->JobDesignationCompetencies->findByJobDesignationId($jobDesignationId['job_designation_id'])
+                                                       ->contain(['Competencies.CompetencyQuestions.Questions'])
+                                                       ->all();
+        pr($surveyData);die;
         }
         $this->set('loggedInUser', $loggedInUser);
         $this->set('users', $users);
@@ -135,7 +146,7 @@ class UsersController extends AppController
             $this->Flash->error(__('KINDLY_PROVIDE_VALID_DATA'));
           }
         }else{
-           $this->Flash->error(__('Email id should be @twinspark.co')); 
+           $this->Flash->error(__("Are you sure you work at Twinspark? We don't recognize you!")); 
         }
       }
     $this->set('jobDesignations', $jobDesignations);
