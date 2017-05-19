@@ -42,8 +42,8 @@ class JobDesignationCompetenciesFixture extends TestFixture
             'id' => 1,
             'job_designation_id' => 1,
             'competency_id' => 1,
-            'created' => '2017-05-09 13:07:50',
-            'modified' => '2017-05-09 13:07:50'
+            'created' => '2017-05-19 02:22:25',
+            'modified' => '2017-05-19 02:22:25'
         ],
     ];
 }

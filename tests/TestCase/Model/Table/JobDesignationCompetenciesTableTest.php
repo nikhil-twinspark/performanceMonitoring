@@ -28,7 +28,11 @@ class JobDesignationCompetenciesTableTest extends TestCase
         'app.job_designations',
         'app.user_job_designations',
         'app.users',
-        'app.competencies'
+        'app.competencies',
+        'app.competency_questions',
+        'app.questions',
+        'app.response_groups',
+        'app.employee_survey_responses'
     ];
 
     /**

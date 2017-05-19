@@ -21,9 +21,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($jobDesignations as $jobDesignation): ?>
+                                <?php foreach ($jobDesignations as $key => $jobDesignation): ?>
                                     <tr>
-                                        <td><?= $this->Number->format($jobDesignation->id) ?></td>
+                                        <td><?= h($key + 1) ?></td>
                                         <td><?= h($jobDesignation->label) ?></td>
                                         <td><?= h($jobDesignation->created) ?></td>
                                         <td><?= h($jobDesignation->modified) ?></td>

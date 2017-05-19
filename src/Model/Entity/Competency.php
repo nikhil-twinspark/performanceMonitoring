@@ -12,6 +12,7 @@ use Cake\ORM\Entity;
  * @property string $description
  * @property \Cake\I18n\Time $created
  * @property \Cake\I18n\Time $modified
+ * @property \Cake\I18n\Time $is_deleted
  *
  * @property \App\Model\Entity\JobDesignationCompetency[] $job_designation_competencies
  */

@@ -10,7 +10,7 @@
                                     <div class="m-b-md">
                                     </div>
                                     <dl class="dl-horizontal">
-                                    <dt><?= __('Competency Name') ?>:</dt> 
+                                    <dt><?= __('Question Text') ?>:</dt> 
                                         <dd>
                                             <span class="label label-success"><?= h($question->text) ?></span>
                                         </dd>

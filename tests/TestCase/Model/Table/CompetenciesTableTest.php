@@ -25,7 +25,10 @@ class CompetenciesTableTest extends TestCase
      */
     public $fixtures = [
         'app.competencies',
-        'app.job_designation_competencies'
+        'app.job_designation_competencies',
+        'app.job_designations',
+        'app.user_job_designations',
+        'app.users'
     ];
 
     /**
@@ -68,6 +71,16 @@ class CompetenciesTableTest extends TestCase
      * @return void
      */
     public function testValidationDefault()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test buildRules method
+     *
+     * @return void
+     */
+    public function testBuildRules()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
