@@ -16,6 +16,7 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
+use Cake\Collection\Collection;
 
 /**
  * Application Controller
@@ -88,9 +89,60 @@ class UsersController extends AppController
     public function employeeDashboard(){
         $loggedInUser = $this->Auth->user();
         $this->loadModel('UserJobDesignations');
+        $userJobDesignation = $this->UserJobDesignations->findByUserId($loggedInUser['id'])
+                                                        ->contain(['JobDesignations'])
+                                                        ->first();
+
+        $userJobDesignation = $userJobDesignation['job_designation']['label'];
+        
+        if($loggedInUser['role']->name == self::EMPLOYEES_LABEL){
+        $this->loadModel('Integrateideas/User.Users');
+        $roleLabel = self::EMPLOYEES_LABEL;
+        $users = $this->Users
+                      ->find()
+                      ->contain(['Roles' => function($q)use($roleLabel){
+                                    return $q->where(['Roles.name' => $roleLabel]);
+                        }])->all();
+        
+        $this->loadModel('EmployeeSurveys');
+
+        }
+        $this->set('userJobDesignation', $userJobDesignation);
+        $this->set('loggedInUser', $loggedInUser);
+        $this->set('users', $users);
+        $this->set('_serialize', ['users']);
+    }
+
+    public function employeeSurveys(){
+        $loggedInUser = $this->Auth->user();
+        $this->loadModel('EmployeeSurveys');
+        $employeeSurvey = $this->EmployeeSurveys->findByUserId($loggedInUser['id'])
+                                                ->where(['end_time IS NULL'])
+                                                ->last();
+        if(!$employeeSurvey){
+            $dataForEmployeeSurvey = ['user_id' => $loggedInUser['id'], 'iteration' => 1];
+        }elseif ($employeeSurvey['end_time']) {
+            $dataForEmployeeSurvey = ['user_id' => $loggedInUser['id'], 'iteration' => $employeeSurvey['iteration'] +1];
+        }
+        if(isset($dataForEmployeeSurvey) && (!$employeeSurvey || $employeeSurvey['end_time'])){
+            $employeeSurvey = $this->EmployeeSurveys->newEntity($dataForEmployeeSurvey);
+            $employeeSurvey = $this->EmployeeSurveys->save($employeeSurvey);
+              if(!$employeeSurvey){
+                $this->Flash->error('Oops. Something went wrong.');
+                // return $this->redirect(['action' => 'studentSurveyList']);
+              }
+        }
+
+        // $surveyId = $this->EmployeeSurveys->findByUserId($this->Auth->user('id'))
+        //                                   ->orderDesc('created')
+        //                                   ->where(['created > ' => new \DateTime('-1 year')])
+        //                                   ->first();        
+        // pr($surveyId); die;
+
+        $this->loadModel('UserJobDesignations');
         $jobDesignationId = $this->UserJobDesignations->findByUserId($loggedInUser['id'])
                                                       ->first();
-        // pr($jobDesignationId['job_designation_id']);die;
+        
         if($loggedInUser['role']->name == self::EMPLOYEES_LABEL){
         $this->loadModel('Integrateideas/User.Users');
         $roleLabel = self::EMPLOYEES_LABEL;
@@ -104,11 +156,14 @@ class UsersController extends AppController
         $surveyData = $this->JobDesignationCompetencies->findByJobDesignationId($jobDesignationId['job_designation_id'])
                                                        ->contain(['Competencies.CompetencyQuestions.Questions'])
                                                        ->all();
-        pr($surveyData);die;
+
         }
+        
+        $this->set('surveyData', $surveyData);
         $this->set('loggedInUser', $loggedInUser);
         $this->set('users', $users);
         $this->set('_serialize', ['users']);
+
     }
 
     public function signUp(){
