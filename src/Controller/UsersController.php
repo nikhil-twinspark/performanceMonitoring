@@ -132,7 +132,10 @@ class UsersController extends AppController
                 // return $this->redirect(['action' => 'studentSurveyList']);
               }
         }
-
+        if ($this->request->is('post')) {
+            $this->Flash->success(__('Survey has been successfully completed.'));
+            return $this->redirect(['action' => 'employeeDashboard']);
+        }
         // $surveyId = $this->EmployeeSurveys->findByUserId($this->Auth->user('id'))
         //                                   ->orderDesc('created')
         //                                   ->where(['created > ' => new \DateTime('-1 year')])
