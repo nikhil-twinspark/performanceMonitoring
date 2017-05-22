@@ -42,8 +42,12 @@
             </table>
           </div>
           <div class="text-center">
-          <?= $this->Form->button('Back', ['onclick'=>"backFunction(".$data['competency_id'].")",'type' => 'submit', 'class' => 'btn btn-danger']); ?>
-          <?= $this->Form->button('Next', ['onclick'=>"myFunction(".$data['competency_id'].")",'type' => 'submit', 'class' => 'btn btn-primary']); ?>
+          <?= $this->Form->button('Back', ['onclick'=>"backFunction(".$data['competency_id'].")",'type' => 'button', 'class' => 'btn btn-danger']); ?>
+          <?php if(sizeof($surveyData)-1 == $key){ ?>
+          <?= $this->Form->button('Submit', ['onclick'=>"myFunction(".$data['competency_id'].")",'type' => 'submit', 'class' => 'btn btn-primary']); ?>
+           <?php }else{ ?>
+            <?= $this->Form->button('Next', ['onclick'=>"myFunction(".$data['competency_id'].")",'type' => 'button', 'class' => 'btn btn-primary']); ?>
+          <?php } ?>
           </div>      
         </div>
 
