@@ -70,7 +70,7 @@ $cakeDescription = 'CAPview';
                 <?= $this->Flash->render() ?>
                 <?= $this->fetch('content') ?>
             </div>
-    <?= $this->element('footer'); ?>
+    <?php //echo $this->element('footer'); ?>
 
 </div>
 </div>
