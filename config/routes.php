@@ -76,6 +76,15 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->fallbacks(DashedRoute::class);
 });
 
+Router::prefix('api', function ($routes) {
+
+  //Vendor Players Activites
+  $routes->connect('/users/employeeSurveys',array('controller'=>'employeeSurveys', 'action'=>'employeeSurveyQuestions',"_method" => "POST"),
+  array('pass' => array('id'), 'id'=>'[\d]+'));
+
+  $routes->fallbacks('InflectedRoute');
+});
+
 Router::plugin('Integrateideas/User', ['path' => '/integrateideas/user'],function($routes) {
     $routes->prefix('api', function($routes) {
         $routes->connect('/:controller/:action/*');

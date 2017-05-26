@@ -253,7 +253,7 @@
           });
         }
       }
-      // console.log(data);
+      console.log(data);
       $http.post(saveResUrl, data)
             .then(function(response){
             }, function(response){
