@@ -20,6 +20,7 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <dl class="dl-horizontal">
+                                    <dt><?= __('Related Competency') ?>:</dt> <dd> <?= h($question['competency_questions'][0]['competency']['text'])?> </dd>
                                         <dt><?= __('Question Id') ?>:</dt> <dd> <?= $this->Number->format($question->id) ?> </dd>
                                         <dt><?= __('Level Number') ?>:</dt> <dd> <?= $this->Number->format($question->level_no)?> </dd>
                                         <dt><?= __('Created') ?>:</dt> <dd> <?= h($question->created) ?> </dd>

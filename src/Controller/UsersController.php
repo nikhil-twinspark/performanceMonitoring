@@ -154,13 +154,13 @@ class UsersController extends AppController
                       ->contain(['Roles' => function($q)use($roleLabel){
                                     return $q->where(['Roles.name' => $roleLabel]);
                         }])->all();
+        }
 
         $this->loadModel('JobDesignationCompetencies');
         $surveyData = $this->JobDesignationCompetencies->findByJobDesignationId($jobDesignationId['job_designation_id'])
                                                        ->contain(['Competencies.CompetencyQuestions.Questions'])
                                                        ->all();
 
-        }
         
         $this->set('surveyData', $surveyData);
         $this->set('loggedInUser', $loggedInUser);

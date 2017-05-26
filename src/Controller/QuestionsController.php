@@ -41,7 +41,7 @@ class QuestionsController extends AppController
     public function view($id = null)
     {
         $question = $this->Questions->get($id, [
-            'contain' => ['ResponseGroups']
+            'contain' => ['ResponseGroups','CompetencyQuestions.Competencies']
         ]);
 
         $this->set('question', $question);

@@ -36,35 +36,32 @@ class ApiController extends Controller
   //initialize auth
   public function initialize()
   {
+    // die('in ini');
     parent::initialize();
     $this->loadComponent('RequestHandler');
+    $this->loadComponent('Auth', [
+            'authorize' => 'Controller',
+            'authenticate' => [
+                'Form' => [
+                    // 'fields' => [
+                    //     'username' => 'username',
+                    //     'password' => 'password'
+                    // ]
+                ]
+            ],
+            'loginAction' => [
+                'controller' => 'Users',
+                'action' => 'login'
+            ],
+            'unauthorizedRedirect' => false // If unauthorized, return them to page they were just on
+        ]);
   }
   
   public function beforeFilter(Event $event)
   {
-
+    // die('in ini');
     //Log will keep the track of all the request and store it in logs/audit.log file
     Log::write('debug', $this->request);
-
-    $user  = $this->Auth->user();
-
-    if($user && $user['idle_timer'] && $this->request->url != 'users/lockscreen'){
-
-        $session = $this->request->session();
-        $lastSeen = $session->read('lastSeen');
-        $currentTime = Time::now();
-        $currentTime = strtotime($currentTime);
-        $idleTime = Configure::read('idleTime');
-        // pr($currentTime);pr("    ");pr($lastSeen);pr($currentTime - $lastSeen."    ".$idleTime/1000);die;
-        if(($currentTime - $lastSeen) >= ($idleTime/1000)){
-
-            throw new ForbiddenException(__('You have exceeded the maximum idle time allowed.'));
-        
-        }else{
-
-            $session->write('lastSeen', $currentTime);
-        }
-    }
 
     $origin = $this->request->header('Origin');
     if($this->request->header('CONTENT_TYPE') != "application/x-www-form-urlencoded; charset=UTF-8"){
@@ -98,7 +95,7 @@ class ApiController extends Controller
 
     public function isAuthorized($user)
   {
-    return false;
+    return true;
   }
 
 }
