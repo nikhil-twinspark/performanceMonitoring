@@ -1,22 +1,22 @@
 <?php
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\JobDesignationCompetenciesTable;
+use App\Model\Table\JobRequirementLevelsTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\JobDesignationCompetenciesTable Test Case
+ * App\Model\Table\JobRequirementLevelsTable Test Case
  */
-class JobDesignationCompetenciesTableTest extends TestCase
+class JobRequirementLevelsTableTest extends TestCase
 {
 
     /**
      * Test subject
      *
-     * @var \App\Model\Table\JobDesignationCompetenciesTable
+     * @var \App\Model\Table\JobRequirementLevelsTable
      */
-    public $JobDesignationCompetencies;
+    public $JobRequirementLevels;
 
     /**
      * Fixtures
@@ -24,6 +24,7 @@ class JobDesignationCompetenciesTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
+        'app.job_requirement_levels',
         'app.job_designation_competencies',
         'app.job_designations',
         'app.user_job_designations',
@@ -45,8 +46,8 @@ class JobDesignationCompetenciesTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('JobDesignationCompetencies') ? [] : ['className' => 'App\Model\Table\JobDesignationCompetenciesTable'];
-        $this->JobDesignationCompetencies = TableRegistry::get('JobDesignationCompetencies', $config);
+        $config = TableRegistry::exists('JobRequirementLevels') ? [] : ['className' => 'App\Model\Table\JobRequirementLevelsTable'];
+        $this->JobRequirementLevels = TableRegistry::get('JobRequirementLevels', $config);
     }
 
     /**
@@ -56,7 +57,7 @@ class JobDesignationCompetenciesTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->JobDesignationCompetencies);
+        unset($this->JobRequirementLevels);
 
         parent::tearDown();
     }
