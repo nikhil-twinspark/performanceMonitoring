@@ -4,10 +4,10 @@ namespace App\Test\Fixture;
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
- * JobDesignationCompetenciesFixture
+ * JobRequirementLevelsFixture
  *
  */
-class JobDesignationCompetenciesFixture extends TestFixture
+class JobRequirementLevelsFixture extends TestFixture
 {
 
     /**
@@ -18,8 +18,8 @@ class JobDesignationCompetenciesFixture extends TestFixture
     // @codingStandardsIgnoreStart
     public $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
-        'job_designation_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
-        'competency_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'job_designation_competency_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'required_level' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
         'modified' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
         '_constraints' => [
@@ -40,10 +40,10 @@ class JobDesignationCompetenciesFixture extends TestFixture
     public $records = [
         [
             'id' => 1,
-            'job_designation_id' => 1,
-            'competency_id' => 1,
-            'created' => '2017-05-29 09:33:53',
-            'modified' => '2017-05-29 09:33:53'
+            'job_designation_competency_id' => 1,
+            'required_level' => 1,
+            'created' => '2017-05-29 07:13:11',
+            'modified' => '2017-05-29 07:13:11'
         ],
     ];
 }

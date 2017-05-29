@@ -16,6 +16,37 @@ class JobDesignationsController extends AppController
      *
      * @return \Cake\Network\Response|null
      */
+
+    public function jobRequirementLevels($id = null){
+
+        $jobDesignations = $this->JobDesignations->get($id, [
+            'contain' => ['JobDesignationCompetencies.Competencies']
+        ]); 
+        // $jobRequirementLevels = $this->JobRequirementLevels->get($id);
+        if ($this->request->is('put')) {
+            $var = $this->loadModel('JobRequirementLevels');
+            $required_level_data = [];
+            foreach ($this->request->data['required_level'] as $key => $value) {
+                $required_level_data[] = ['required_level' =>$value, 
+                                           'job_designation_competency_id' => $key ]; 
+            }
+
+            // pr($jobRequirementLevels);die;
+            $jobRequirementLevelData = $var->newEntities($required_level_data);
+            $jobRequirementLevelData = $var->patchEntities($jobRequirementLevelData,$required_level_data);
+            if ($var->saveMany($jobRequirementLevelData)) {
+                $this->Flash->success(__('The job requirement levels has been saved.'));
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The job designation could not be saved. Please, try again.'));
+        }
+
+        $this->set('jobRequirementLevels', $jobRequirementLevels);
+        $this->set('jobDesignations', $jobDesignations);
+        $this->set('_serialize', ['jobDesignations','jobRequirementLevels']);
+    }
+
+
     public function index()
     {
         $jobDesignations = $this->paginate($this->JobDesignations);

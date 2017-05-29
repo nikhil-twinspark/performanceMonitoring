@@ -37,6 +37,9 @@
                                             <i class="fa fa-pencil fa-fw"></i>
                                         </a>
                                         <?= $this->Form->postLink(__(''), ['action' => 'delete', $jobDesignation->id], ['confirm' => __('Are you sure you want to delete # {0}?', $jobDesignation->id), 'class' => ['btn', 'btn-sm', 'btn-danger', 'fa', 'fa-trash-o', 'fa-fh']]) ?>
+                                        <?= '<a href='.$this->Url->build(['controller'=> 'JobDesignations','action' => 'jobRequirementLevels', $jobDesignation->id]).' class="btn btn-xs btn-primary">' ?>
+                                        <i class="fa fa-gears fa-fw"></i>
+                                        </a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
