@@ -17,30 +17,48 @@ class JobDesignationsController extends AppController
      * @return \Cake\Network\Response|null
      */
 
-    public function jobRequirementLevels($id = null){
+    public function jobRequirementLevels($jobDesignationId = null){
 
-        $jobDesignations = $this->JobDesignations->get($id, [
-            'contain' => ['JobDesignationCompetencies.Competencies']
+        $jobDesignations = $this->JobDesignations->get($jobDesignationId, [
+            'contain' => ['JobDesignationCompetencies.Competencies','JobDesignationCompetencies.JobRequirementLevels']
         ]); 
-        // $jobRequirementLevels = $this->JobRequirementLevels->get($id);
+        $this->loadModel('JobDesignationCompetencies');
+        $jobRequirementLevels = $this->JobDesignationCompetencies->findByJobDesignationId($jobDesignationId)->contain('JobRequirementLevels')->all()->extract('job_requirement_levels')->toArray();
         if ($this->request->is('put')) {
-            $var = $this->loadModel('JobRequirementLevels');
             $required_level_data = [];
+            $patch = [];
             foreach ($this->request->data['required_level'] as $key => $value) {
-                $required_level_data[] = ['required_level' =>$value, 
-                                           'job_designation_competency_id' => $key ]; 
+                $exist = 0;
+                foreach ($jobRequirementLevels as $requiredData) {
+
+                    if(!empty($requiredData) && $requiredData[0]['job_designation_competency_id'] == $key){
+                        $patch[] = [ 'id' => $requiredData[0]['id'] ,
+                                     'required_level' => $value];
+                        $exist = 1;
+                    }
+                }
+                if(!$exist){    
+                    $required_level_data[] = ['required_level' =>$value, 
+                                               'job_designation_competency_id' => $key,
+                                                ]; 
+                }
+            
+            }
+            
+            $var = $this->loadModel('JobRequirementLevels');
+            if(!empty($patch)){
+                $jobRequirementLevelData = $var->patchEntities($jobRequirementLevels,$patch);
+            }else{
+                $jobRequirementLevelData = $var->newEntities($required_level_data);
+                $jobRequirementLevelData = $var->patchEntities($jobRequirementLevelData,$required_level_data);
             }
 
-            // pr($jobRequirementLevels);die;
-            $jobRequirementLevelData = $var->newEntities($required_level_data);
-            $jobRequirementLevelData = $var->patchEntities($jobRequirementLevelData,$required_level_data);
             if ($var->saveMany($jobRequirementLevelData)) {
                 $this->Flash->success(__('The job requirement levels has been saved.'));
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The job designation could not be saved. Please, try again.'));
         }
-
         $this->set('jobRequirementLevels', $jobRequirementLevels);
         $this->set('jobDesignations', $jobDesignations);
         $this->set('_serialize', ['jobDesignations','jobRequirementLevels']);

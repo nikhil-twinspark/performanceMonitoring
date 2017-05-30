@@ -28,14 +28,18 @@
                                     <tr>
                                         <td><?= h($key + 1) ?></td>
                                         <td ><?= h($jobDesignation['competency']['text']) ?></td>
-                                        <td class="text-center"><?= h($jobDesignation['competency']['maximum_level']) ?></td>
+                                        <td><?= h($jobDesignation['competency']['maximum_level']) ?></td>
                                         <td>
                                             <?php 
                                             for($i=0; $i< $jobDesignation['competency']['maximum_level'];$i++) {
                                                 $options[$i+1] = (1+$i);
                                             }
-                                
-                                            echo $this->Form->select('required_level['.$jobDesignation['id'].']', $options, ['min'=>1, 'label' => false, 'id' => 'level_no' , 'class' => ['form-control']]); 
+                                            if(!empty($jobDesignation['job_requirement_levels'])){
+
+                                            echo $this->Form->select('job_designation_competencies['.$key.'].job_requirement_levels[0].required_level', $options, ['min'=>1,'value'=>$jobDesignation['job_requirement_levels'][0]['required_level'], 'label' => false, 'id' => 'level_no' , 'class' => ['form-control']]); 
+                                            }else{
+                                                echo $this->Form->select('job_designation_competencies['.$key.'].job_requirement_levels[0].required_level', $options, ['min'=>1, 'label' => false, 'id' => 'level_no' , 'class' => ['form-control']]);
+                                            }
                                             unset($options); ?>
                                         </td>
                                     </tr>
