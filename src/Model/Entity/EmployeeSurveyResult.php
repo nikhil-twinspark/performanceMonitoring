@@ -4,20 +4,19 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Competency Entity
+ * EmployeeSurveyResult Entity
  *
  * @property int $id
- * @property string $text
- * @property int $maximum_level
- * @property string $description
+ * @property int $employee_survey_id
+ * @property int $competency_id
+ * @property int $current_level
  * @property \Cake\I18n\Time $created
  * @property \Cake\I18n\Time $modified
- * @property \Cake\I18n\Time $is_deleted
  *
- * @property \App\Model\Entity\CompetencyQuestion[] $competency_questions
- * @property \App\Model\Entity\JobDesignationCompetency[] $job_designation_competencies
+ * @property \App\Model\Entity\EmployeeSurvey $employee_survey
+ * @property \App\Model\Entity\Competency $competency
  */
-class Competency extends Entity
+class EmployeeSurveyResult extends Entity
 {
 
     /**

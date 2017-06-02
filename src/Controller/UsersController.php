@@ -52,17 +52,17 @@ class UsersController extends AppController
     public function adminDashboard(){
         $this->loadModel('UserJobDesignations');
         $userJobDesig = $this->UserJobDesignations->find()
-                                                  ->contain('JobDesignations')
-                                                  ->all()
-                                                  ->combine('user_id', 'job_designation.label')
-                                                  ->toArray();
+        ->contain('JobDesignations')
+        ->all()
+        ->combine('user_id', 'job_designation.label')
+        ->toArray();
 
         $loggedInUser = $this->Auth->user();
         if($loggedInUser['role']->name == self::SUPER_ADMIN_LABEL){
-        $controller = new Controller;
-        $this->Users = $controller->loadModel('Integrateideas/User.Users');
-        $roleLabel = self::SUPER_ADMIN_LABEL;
-        $users = $this->Users->find()->contain(['Roles'])->all();
+            $controller = new Controller;
+            $this->Users = $controller->loadModel('Integrateideas/User.Users');
+            $roleLabel = self::SUPER_ADMIN_LABEL;
+            $users = $this->Users->find()->contain(['Roles'])->all();
         }
         $this->set('userJobDesig', $userJobDesig);
         $this->set('loggedInUser', $loggedInUser);
@@ -74,12 +74,12 @@ class UsersController extends AppController
     public function managementDashboard(){
         $loggedInUser = $this->Auth->user();
         if($loggedInUser['role']->name == self::MANAGEMENT_LABEL){
-        $this->loadModel('Integrateideas/User.Users');
-        $roleLabel = self::SUPER_ADMIN_LABEL;
-        $users = $this->Users->find()->contain(['Roles' => function($q)use($roleLabel){
-            return $q->where(['Roles.name IS NOT' => $roleLabel]);
+            $this->loadModel('Integrateideas/User.Users');
+            $roleLabel = self::SUPER_ADMIN_LABEL;
+            $users = $this->Users->find()->contain(['Roles' => function($q)use($roleLabel){
+                return $q->where(['Roles.name IS NOT' => $roleLabel]);
 
-        }])->all();
+            }])->all();
         }
         $this->set('loggedInUser', $loggedInUser);
         $this->set('users', $users);
@@ -90,21 +90,21 @@ class UsersController extends AppController
         $loggedInUser = $this->Auth->user();
         $this->loadModel('UserJobDesignations');
         $userJobDesignation = $this->UserJobDesignations->findByUserId($loggedInUser['id'])
-                                                        ->contain(['JobDesignations'])
-                                                        ->first();
+        ->contain(['JobDesignations'])
+        ->first();
 
         $userJobDesignation = $userJobDesignation['job_designation']['label'];
         
         if($loggedInUser['role']->name == self::EMPLOYEES_LABEL){
-        $this->loadModel('Integrateideas/User.Users');
-        $roleLabel = self::EMPLOYEES_LABEL;
-        $users = $this->Users
-                      ->find()
-                      ->contain(['Roles' => function($q)use($roleLabel){
-                                    return $q->where(['Roles.name' => $roleLabel]);
-                        }])->all();
-        
-        $this->loadModel('EmployeeSurveys');
+            $this->loadModel('Integrateideas/User.Users');
+            $roleLabel = self::EMPLOYEES_LABEL;
+            $users = $this->Users
+            ->find()
+            ->contain(['Roles' => function($q)use($roleLabel){
+                return $q->where(['Roles.name' => $roleLabel]);
+            }])->all();
+
+            $this->loadModel('EmployeeSurveys');
 
         }
         $this->set('userJobDesignation', $userJobDesignation);
@@ -117,56 +117,71 @@ class UsersController extends AppController
         $loggedInUser = $this->Auth->user();
         $this->loadModel('EmployeeSurveys');
         $employeeSurvey = $this->EmployeeSurveys->findByUserId($loggedInUser['id'])
-                                                ->where(['end_time IS NULL'])
-                                                ->last();
+        ->last();
+        
         if(!$employeeSurvey){
+
             $dataForEmployeeSurvey = ['user_id' => $loggedInUser['id'], 'iteration' => 1];
-        }elseif ($employeeSurvey['end_time']) {
+        }elseif($employeeSurvey['end_time']) {
+
             $dataForEmployeeSurvey = ['user_id' => $loggedInUser['id'], 'iteration' => $employeeSurvey['iteration'] +1];
         }
+        
         if(isset($dataForEmployeeSurvey) && (!$employeeSurvey || $employeeSurvey['end_time'])){
             $employeeSurvey = $this->EmployeeSurveys->newEntity($dataForEmployeeSurvey);
             $employeeSurvey = $this->EmployeeSurveys->save($employeeSurvey);
-              if(!$employeeSurvey){
+            if(!$employeeSurvey){
                 $this->Flash->error('Oops. Something went wrong.');
-                // return $this->redirect(['action' => 'studentSurveyList']);
-              }
+            }
         }
+        
         if ($this->request->is('post')) {
             $this->Flash->success(__('Survey has been successfully completed.'));
             return $this->redirect(['action' => 'employeeDashboard']);
         }
-        // $surveyId = $this->EmployeeSurveys->findByUserId($this->Auth->user('id'))
-        //                                   ->orderDesc('created')
-        //                                   ->where(['created > ' => new \DateTime('-1 year')])
-        //                                   ->first();        
-        // pr($surveyId); die;
-
         $this->loadModel('UserJobDesignations');
         $jobDesignationId = $this->UserJobDesignations->findByUserId($loggedInUser['id'])
-                                                      ->first();
+        ->first();
         
-        if($loggedInUser['role']->name == self::EMPLOYEES_LABEL){
-        $this->loadModel('Integrateideas/User.Users');
-        $roleLabel = self::EMPLOYEES_LABEL;
-        $users = $this->Users
-                      ->find()
-                      ->contain(['Roles' => function($q)use($roleLabel){
-                                    return $q->where(['Roles.name' => $roleLabel]);
-                        }])->all();
-        }
-
         $this->loadModel('JobDesignationCompetencies');
         $surveyData = $this->JobDesignationCompetencies->findByJobDesignationId($jobDesignationId['job_designation_id'])
-                                                       ->contain(['Competencies.CompetencyQuestions.Questions'])
-                                                       ->all();
-
+        ->contain(['Competencies.CompetencyQuestions.Questions'])
+        ->all();
         
         $this->set('surveyData', $surveyData);
         $this->set('loggedInUser', $loggedInUser);
-        $this->set('users', $users);
         $this->set('_serialize', ['users']);
+    }
 
+    public function employeeSurveyResults(){
+
+        $loggedInUser = $this->Auth->User();
+        $this->loadModel('UserJobDesignations');
+        $jobDesignation = $this->UserJobDesignations->findByUserId($loggedInUser['id'])
+                                                    ->first();
+        
+        $this->loadModel('JobDesignationCompetencies');
+        $surveyResultData = $this->JobDesignationCompetencies->findByJobDesignationId($jobDesignation['id'])
+                                                             ->contain(['Competencies.EmployeeSurveyResults','JobRequirementLevels'])
+                                                             ->all();
+        // pr($surveyResultData);die;
+        $achieved_levels = [];
+        $required_levels = [];
+        $competencies = [];
+        foreach ($surveyResultData as $key => $value) {
+            $competencies[] = $value['competency']['text'];
+            $required_levels[] = $value['job_requirement_levels'][0]['required_level'];
+            foreach ($value['competency']['employee_survey_results'] as $key => $value1) {
+                $achieved_levels[] = $value1['current_level'];
+            }
+        }
+        $data = [ 'competencies' => $competencies,
+                  'required_levels' => $required_levels,
+                  'achieved_levels' => $achieved_levels 
+                ];
+
+        $this->set('data', $data);
+        $this->set('_serialize', ['users']);
     }
 
     public function signUp(){
@@ -181,39 +196,39 @@ class UsersController extends AppController
             list ($user, $domain) = explode('@', $email);
             $isTwinsparkMail = ($domain == 'twinspark.co');
             if($isTwinsparkMail){
-            $userTable = $this->loadModel('Integrateideas/User.Users');
-            $user = $userTable->newEntity();
-            $user = $userTable->patchEntity($user, $this->request->data);
-            if(!$user->errors()){
-            if ($userTable->save($user)) {
-                if(!$userTable->save($user)['job_designation_id']){
-                $userJobDesignationData = ['user_id' => $userTable->save($user)['id'], 'job_designation_id' => '0'];
+                $userTable = $this->loadModel('Integrateideas/User.Users');
+                $user = $userTable->newEntity();
+                $user = $userTable->patchEntity($user, $this->request->data);
+                if(!$user->errors()){
+                    if ($userTable->save($user)) {
+                        if(!$userTable->save($user)['job_designation_id']){
+                            $userJobDesignationData = ['user_id' => $userTable->save($user)['id'], 'job_designation_id' => '0'];
+                        }else{
+                            $userJobDesignationData = ['user_id' => $userTable->save($user)['id'], 'job_designation_id' => $userTable->save($user)['job_designation_id']];
+                        }
+                        $this->loadModel('UserJobDesignations');
+                        $userJobDesig = $this->UserJobDesignations->newEntity();
+                        $userJobDesig = $this->UserJobDesignations->patchEntity($userJobDesig,$userJobDesignationData);
+                        $this->UserJobDesignations->save($userJobDesig);
+                        $this->Flash->success(__('The user has been saved.'));
+                        return $this->redirect('/integrateideas/user/users/login');
+                    }else{
+                        $this->Flash->error(__('The user could not be saved. Please, try again.'));
+                    }
                 }else{
-                $userJobDesignationData = ['user_id' => $userTable->save($user)['id'], 'job_designation_id' => $userTable->save($user)['job_designation_id']];
+                    $this->Flash->error(__('KINDLY_PROVIDE_VALID_DATA'));
                 }
-                $this->loadModel('UserJobDesignations');
-                $userJobDesig = $this->UserJobDesignations->newEntity();
-                $userJobDesig = $this->UserJobDesignations->patchEntity($userJobDesig,$userJobDesignationData);
-                $this->UserJobDesignations->save($userJobDesig);
-                $this->Flash->success(__('The user has been saved.'));
-                return $this->redirect('/integrateideas/user/users/login');
             }else{
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
-            }
-          }else{
-            $this->Flash->error(__('KINDLY_PROVIDE_VALID_DATA'));
-          }
-        }else{
-           $this->Flash->error(__("Are you sure you work at Twinspark? We don't recognize you!")); 
-        }
-      }
-    $this->set('jobDesignations', $jobDesignations);
-    $this->set('roles', $roles);
-    $this->set('user', $user);
-    $this->set('_serialize', ['user']);
+               $this->Flash->error(__("Are you sure you work at Twinspark? We don't recognize you!")); 
+           }
+       }
+       $this->set('jobDesignations', $jobDesignations);
+       $this->set('roles', $roles);
+       $this->set('user', $user);
+       $this->set('_serialize', ['user']);
 
 
-    }
+   }
 
     /**
      * Before render callback.
@@ -225,14 +240,14 @@ class UsersController extends AppController
     {
         if (!array_key_exists('_serialize', $this->viewVars) &&
             in_array($this->response->type(), ['application/json', 'application/xml'])
-        ) {
+            ) {
             $this->set('_serialize', true);
-        }
     }
+}
 
-    public function isAuthorized($user)
-    {
+public function isAuthorized($user)
+{
     return true;
-    }
+}
 
 }

@@ -1,22 +1,22 @@
 <?php
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\CompetenciesTable;
+use App\Model\Table\EmployeeSurveyResultsTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\CompetenciesTable Test Case
+ * App\Model\Table\EmployeeSurveyResultsTable Test Case
  */
-class CompetenciesTableTest extends TestCase
+class EmployeeSurveyResultsTableTest extends TestCase
 {
 
     /**
      * Test subject
      *
-     * @var \App\Model\Table\CompetenciesTable
+     * @var \App\Model\Table\EmployeeSurveyResultsTable
      */
-    public $Competencies;
+    public $EmployeeSurveyResults;
 
     /**
      * Fixtures
@@ -24,14 +24,15 @@ class CompetenciesTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.competencies',
-        'app.competency_questions',
+        'app.employee_survey_results',
+        'app.employee_surveys',
+        'app.users',
+        'app.employee_survey_responses',
         'app.questions',
         'app.response_groups',
         'app.response_options',
-        'app.employee_survey_responses',
-        'app.employee_surveys',
-        'app.users',
+        'app.competency_questions',
+        'app.competencies',
         'app.job_designation_competencies',
         'app.job_designations',
         'app.user_job_designations',
@@ -46,8 +47,8 @@ class CompetenciesTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Competencies') ? [] : ['className' => 'App\Model\Table\CompetenciesTable'];
-        $this->Competencies = TableRegistry::get('Competencies', $config);
+        $config = TableRegistry::exists('EmployeeSurveyResults') ? [] : ['className' => 'App\Model\Table\EmployeeSurveyResultsTable'];
+        $this->EmployeeSurveyResults = TableRegistry::get('EmployeeSurveyResults', $config);
     }
 
     /**
@@ -57,7 +58,7 @@ class CompetenciesTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Competencies);
+        unset($this->EmployeeSurveyResults);
 
         parent::tearDown();
     }
@@ -78,6 +79,16 @@ class CompetenciesTableTest extends TestCase
      * @return void
      */
     public function testValidationDefault()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test buildRules method
+     *
+     * @return void
+     */
+    public function testBuildRules()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
