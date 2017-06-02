@@ -5,8 +5,7 @@
   <div class="col-lg-12" ng-controller = "surveyPage">{{backDiv}}
     <div style="background-color:#ffffff;" ng-hide="isSurveyStarted">
       <div class="ibox float-e-margins">
-        <div class="ibox-content"> 
-          <!-- <strong><p class="text-center"><small>Please take the Survey and let us know how we can help improve.</small></p></strong> -->
+        <div class="ibox-content">
           <br>
           <div class="wrapper text-center"> <br><br>
             <button type="button" id="startemployeeSurvey" class="btn btn-primary text-center" ng-click="startSurvey()">You can start now.</button>
@@ -27,7 +26,7 @@
         <br>
         <div class="table-responsive" ng-repeat="question in survey.competency.competency_questions">
         <table class="table table-hover table-bordered table-striped">
-      <input type="hidden" name="myFieldName" value="someValue" ng-init="surveyRes.surveyResponseId[question.id] = question.question.employee_survey_responses[0].id"/>
+      <input type="hidden" name="myFieldName" value="someValue" ng-init="surveyRes.surveyResponseId[question.question.id] = question.question.employee_survey_responses[0].id"/>
             <tbody>
               <tr>
                 <td class="col-sm-1">
@@ -162,12 +161,14 @@
     $scope.surveyRes.description = [];
     $scope.responseOptions = '';
     $scope.saveResponses = '';
+    $scope.submitButton = false;
     $scope.surveyData = new Object;
     $scope.showDiv = 0;
     $scope.isSurveyComplete = false;
     $scope.totalCount = 0;
 
     $scope.mapResponses = function(res){
+      $scope.totalCount = 0;
         for(x in $scope.surveyData){
           for(y in $scope.surveyData[x].competency.competency_questions){
 
@@ -184,7 +185,6 @@
             }
           }
         }
-        // console.log('in mapResponses');
         console.log($scope.totalCount);
       }
 
@@ -224,10 +224,11 @@
     }
     $scope.goToSubmission = function(){
             console.log('here');
-            $scope.showDiv.slideTo(32, 0);
-            console.log(showDiv);
         }
     $scope.submitResponses = function(){
+      console.log('in submitResponses');
+      console.log($scope.surveyRes.checkbox);
+      $scope.submitButton = true;
       var data = [];
 
       for(x in $scope.surveyRes.checkbox) {
@@ -236,6 +237,8 @@
           $scope.surveyRes.description[x] = null;
         }
         if(typeof $scope.surveyRes.surveyResponseId[x] == "undefined"){
+          console.log('if');
+          console.log(x);
           data.push({
 
             "employee_survey_id" : $scope.employeeSurveyId,
@@ -244,7 +247,9 @@
             "description" : $scope.surveyRes.description[x]
           });
         }else{
-           data.push({
+          console.log('asfas');
+          console.log($scope.surveyRes.surveyResponseId[x]);
+          data.push({
             "id" : $scope.surveyRes.surveyResponseId[x],
             "employee_survey_id" : $scope.employeeSurveyId,
             "question_id" : x,
@@ -252,10 +257,12 @@
             "description" : $scope.surveyRes.description[x]
           });
         }
+
       }
       console.log(data);
       $http.post(saveResUrl, data)
             .then(function(response){
+              init();
             }, function(response){
                 console.log(response);
                 swal({
@@ -269,9 +276,26 @@
               });
             });
 
+
       $scope.responseCounter();
       $scope.showDiv++; 
     }
+
+        $scope.checkQuestions = function(){
+
+        for(key in $scope.surveyRes.checkbox){
+
+          if(typeof $scope.surveyRes.checkbox[key] == "undefined"){
+
+            return true;
+
+          }
+
+        }
+        
+        return false;
+
+      }
 
     function init(){
       $scope.surveyData = new Object;

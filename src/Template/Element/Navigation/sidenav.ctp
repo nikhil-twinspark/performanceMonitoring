@@ -54,7 +54,10 @@
                 <li><?= $this->Html->link(__('Add Competency'), ['controller'=>'competencies','action' => 'add']) ?></li>
                 </ul>
                     <?php } else {?>
-            
+                  <a href="#"><span class="nav-label"></span><span class="fa arrow"></span> </a>
+                    <ul class="nav nav-second-level">
+                    <li><?= $this->Html->link(__('View Result'), ['controller'=>'users','action' => 'employee_survey_results']) ?></li>
+                </ul>  
                 <?php } ?>    
                 </ul>
             </li>
