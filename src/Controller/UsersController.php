@@ -160,15 +160,24 @@ class UsersController extends AppController
         $jobDesignation = $this->UserJobDesignations->findByUserId($loggedInUser['id'])
                                                     ->first();
         
+        // pr($jobDesignation['job_designation_id']);die;
+        $this->loadModel('EmployeeSurveys');
+        $employeeSurveyId = $this->EmployeeSurveys->findByUserId($loggedInUser['id'])
+                                                  ->last()
+                                                  ->get('id'); 
+        // pr($employeeSurveyId['id']);die; 
+
         $this->loadModel('JobDesignationCompetencies');
-        $surveyResultData = $this->JobDesignationCompetencies->findByJobDesignationId($jobDesignation['id'])
-                                                             ->contain(['Competencies.EmployeeSurveyResults','JobRequirementLevels'])
-                                                             ->all();
-        // pr($surveyResultData);die;
+        $surveyResultData = $this->JobDesignationCompetencies->findByJobDesignationId($jobDesignation['job_designation_id'])
+        ->contain(['Competencies.EmployeeSurveyResults' => function($q) use($employeeSurveyId){
+                                            return $q->where(['employee_survey_id' => $employeeSurveyId]);
+                                                        },'JobRequirementLevels'])->all();
+        
         $achieved_levels = [];
         $required_levels = [];
         $competencies = [];
         foreach ($surveyResultData as $key => $value) {
+        
             $competencies[] = $value['competency']['text'];
             $required_levels[] = $value['job_requirement_levels'][0]['required_level'];
             foreach ($value['competency']['employee_survey_results'] as $key => $value1) {
@@ -176,10 +185,10 @@ class UsersController extends AppController
             }
         }
         $data = [ 'competencies' => $competencies,
-                  'required_levels' => $required_levels,
-                  'achieved_levels' => $achieved_levels 
-                ];
-
+        'required_levels' => $required_levels,
+        'achieved_levels' => $achieved_levels 
+        ];
+        
         $this->set('data', $data);
         $this->set('_serialize', ['users']);
     }
