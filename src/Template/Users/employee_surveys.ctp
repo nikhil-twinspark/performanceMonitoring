@@ -75,7 +75,10 @@
                          Hit submit to finalize this student's survey.
                     </p>
                     <div class="wrapper text-center">
-                        <button type="button" id="submitlcSurvey" class="btn btn-primary text-center" ng-click="endSurvey()"  ng-disabled="isSurveyComplete === true ? false : true">Submit</button>
+                        <button type="button" id="submitlcSurvey" class="btn btn-primary text-center" ng-click="endSurvey()"  ng-disabled="isSurveyComplete === true ? false : true" <?php echo $this->Url->build([
+                                                                                          "controller" => "Users",
+                                                                                          "action" => "employeeSurveyResults",
+                                                                                ]);?> >Submit</button>
                     </div>
                 </div>
             </div>
@@ -99,7 +102,7 @@
     ])."';";
   echo "var redirectUrl = '".$this->Url->build([
     "controller" => "Users",
-    "action" => "employeeDashboard",
+    "action" => "employeeSurveyResults",
     ])."';";
   echo "var saveResUrl = '".$this->Url->build([
         'plugin' => false,

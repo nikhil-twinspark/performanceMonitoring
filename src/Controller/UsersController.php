@@ -92,9 +92,19 @@ class UsersController extends AppController
         $userJobDesignation = $this->UserJobDesignations->findByUserId($loggedInUser['id'])
         ->contain(['JobDesignations'])
         ->first();
-
         $userJobDesignation = $userJobDesignation['job_designation']['label'];
         
+        $this->loadModel('EmployeeSurveys');
+        $employeeSurveyId = $this->EmployeeSurveys->findByUserId($loggedInUser['id'])
+                                                  ->first();
+
+        $employeeSurveyResult = null;
+        if($employeeSurveyId){
+        $this->loadModel('EmployeeSurveyResults');
+        $employeeSurveyResult = $this->EmployeeSurveyResults->findByEmployeeSurveyId($employeeSurveyId['id'])
+                                                            ->all();
+        }
+        $this->loadModel('UserJobDesignations');
         if($loggedInUser['role']->name == self::EMPLOYEES_LABEL){
             $this->loadModel('Integrateideas/User.Users');
             $roleLabel = self::EMPLOYEES_LABEL;
@@ -107,6 +117,8 @@ class UsersController extends AppController
             $this->loadModel('EmployeeSurveys');
 
         }
+        
+        $this->set('employeeSurveyResult', $employeeSurveyResult);
         $this->set('userJobDesignation', $userJobDesignation);
         $this->set('loggedInUser', $loggedInUser);
         $this->set('users', $users);

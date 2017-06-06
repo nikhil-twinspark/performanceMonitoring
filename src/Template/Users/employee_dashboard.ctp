@@ -7,7 +7,15 @@
 		</div>
     <div class="col-lg-12">
         <div class="ibox float-e-margins">
-            <div class="ibox-title">
+            <?php if((!empty($employeeSurveyResult))){?>
+            
+			<div class="ibox-content">
+            <br><br>
+            <br><br>
+    			<?= $this->Html->link('View your Survey Result', ['action' => 'employeeSurveyResults'], ['class' => 'btn btn-primary btn-block m-t']); ?>
+			</div>
+			<?php }else{ ?>
+			<div class="ibox-title">
                 <h3 class="text-center">Employee's Survey</h3>
                 <p class="text-center">Take the following survey for the Performance Assessment.</p>
             </div>
@@ -17,7 +25,8 @@
             <strong><p class="text-center"><small>Please take the Survey and let us know how we can help improve.</small></p></strong>
     			<br>
     			<?= $this->Html->link('Take the Survey now!', ['action' => 'employeeSurveys'], ['class' => 'btn btn-primary btn-block m-t']); ?>
-			</div>
+			</div>	
+			<?php }?>
 			<br><br>
 			<br><br>
 			<br><br>
