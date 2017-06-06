@@ -195,6 +195,7 @@ class  EmployeeSurveysController extends ApiController
       }else{
         $saveSurveyResultData = $surveyResultNewData;
       }
+      
 
       $this->EmployeeSurveyResults->saveMany($saveSurveyResultData);
 

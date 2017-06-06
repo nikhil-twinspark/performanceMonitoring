@@ -1,3 +1,4 @@
+<?= $this->Html->script('Chart.min.js') ?>
 <div class="row">
     <div class="col-lg-12">
         <div class="hpanel">
@@ -6,13 +7,12 @@
             </div>
             <div class="panel-body">
                 <div>
-                    <canvas id="radarChart" width="800" height="800"></canvas>
+                    <canvas id="radarChart" width="1000" height="1000"></canvas>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<?= $this->Html->script('Chart.min.js') ?>
 <script type="text/javascript">
     <?php 
     echo "var data = JSON.parse('".json_encode($data)."');";
