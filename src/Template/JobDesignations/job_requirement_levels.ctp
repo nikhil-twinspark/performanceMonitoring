@@ -13,6 +13,7 @@
                     <div class="lead">
                         <p><strong>Job Designation :</strong> <?= $jobDesignations['label'] ?> </p>
                     </div>
+                    <p><strong>You can set a minimum level for each competency required to perform this Job efficiently.</strong> </p>
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover dataTables">
                             <thead>
@@ -36,9 +37,9 @@
                                             }
                                             if(!empty($jobDesignation['job_requirement_levels'])){
 
-                                            echo $this->Form->select('job_designation_competencies['.$key.'].job_requirement_levels[0].required_level', $options, ['min'=>1,'value'=>$jobDesignation['job_requirement_levels'][0]['required_level'], 'label' => false, 'id' => 'level_no' , 'class' => ['form-control']]); 
+                                            echo $this->Form->select('job_designation_competencies['.$jobDesignation['id'].']', $options, ['min'=>1,'value'=>$jobDesignation['job_requirement_levels'][0]['required_level'], 'label' => false, 'id' => 'level_no' , 'class' => ['form-control']]); 
                                             }else{
-                                                echo $this->Form->select('job_designation_competencies['.$key.'].job_requirement_levels[0].required_level', $options, ['min'=>1, 'label' => false, 'id' => 'level_no' , 'class' => ['form-control']]);
+                                                echo $this->Form->select('job_designation_competencies['.$jobDesignation['id'].']', $options, ['min'=>1, 'label' => false, 'id' => 'level_no' , 'class' => ['form-control']]);
                                             }
                                             unset($options); ?>
                                         </td>

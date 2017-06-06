@@ -24,13 +24,15 @@ class JobDesignationsController extends AppController
         ]); 
         $this->loadModel('JobDesignationCompetencies');
         $jobRequirementLevels = $this->JobDesignationCompetencies->findByJobDesignationId($jobDesignationId)->contain('JobRequirementLevels')->all()->extract('job_requirement_levels')->toArray();
+
         if ($this->request->is('put')) {
             $required_level_data = [];
             $patch = [];
-            foreach ($this->request->data['required_level'] as $key => $value) {
+            foreach ($this->request->data['job_designation_competencies'] as $key => $value) {
+                
                 $exist = 0;
                 foreach ($jobRequirementLevels as $requiredData) {
-
+                  
                     if(!empty($requiredData) && $requiredData[0]['job_designation_competency_id'] == $key){
                         $patch[] = [ 'id' => $requiredData[0]['id'] ,
                                      'required_level' => $value];
@@ -44,7 +46,6 @@ class JobDesignationsController extends AppController
                 }
             
             }
-            
             $var = $this->loadModel('JobRequirementLevels');
             if(!empty($patch)){
                 $jobRequirementLevelData = $var->patchEntities($jobRequirementLevels,$patch);
