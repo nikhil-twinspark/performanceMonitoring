@@ -9,9 +9,9 @@ use Cake\Validation\Validator;
 /**
  * EmployeeSurveyResponses Model
  *
- * @property \Cake\ORM\Association\BelongsTo $EmployeeSurveys
- * @property \Cake\ORM\Association\BelongsTo $Questions
- * @property \Cake\ORM\Association\BelongsTo $ResponseOptions
+ * @property \App\Model\Table\EmployeeSurveysTable|\Cake\ORM\Association\BelongsTo $EmployeeSurveys
+ * @property \App\Model\Table\QuestionsTable|\Cake\ORM\Association\BelongsTo $Questions
+ * @property \App\Model\Table\ResponseOptionsTable|\Cake\ORM\Association\BelongsTo $ResponseOptions
  *
  * @method \App\Model\Entity\EmployeeSurveyResponse get($primaryKey, $options = [])
  * @method \App\Model\Entity\EmployeeSurveyResponse newEntity($data = null, array $options = [])
@@ -36,26 +36,23 @@ class EmployeeSurveyResponsesTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('employee_survey_responses');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('employee_survey_responses');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 
         $this->belongsTo('EmployeeSurveys', [
             'foreignKey' => 'employee_survey_id',
-            'joinType' => 'INNER',
-            'saveStrategy' => 'replace'
+            'joinType' => 'INNER'
         ]);
         $this->belongsTo('Questions', [
             'foreignKey' => 'question_id',
-            'joinType' => 'INNER',
-            'saveStrategy' => 'replace'
+            'joinType' => 'INNER'
         ]);
         $this->belongsTo('ResponseOptions', [
             'foreignKey' => 'response_option_id',
-            'joinType' => 'INNER',
-            'saveStrategy' => 'replace'
+            'joinType' => 'INNER'
         ]);
     }
 

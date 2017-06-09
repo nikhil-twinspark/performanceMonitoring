@@ -46,8 +46,8 @@ class ResponseOptionsFixture extends TestFixture
             'response_group_id' => 1,
             'label' => 'Lorem ipsum dolor sit amet',
             'status' => 1,
-            'created' => '2017-05-24 14:09:10',
-            'modified' => '2017-05-24 14:09:10'
+            'created' => '2017-06-07 08:25:32',
+            'modified' => '2017-06-07 08:25:32'
         ],
     ];
 }

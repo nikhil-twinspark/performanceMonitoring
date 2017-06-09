@@ -9,8 +9,9 @@ use Cake\Validation\Validator;
 /**
  * EmployeeSurveys Model
  *
- * @property \Cake\ORM\Association\BelongsTo $Users
- * @property \Cake\ORM\Association\HasMany $EmployeeSurveyResponses
+ * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\EmployeeSurveyResponsesTable|\Cake\ORM\Association\HasMany $EmployeeSurveyResponses
+ * @property |\Cake\ORM\Association\HasMany $EmployeeSurveyResults
  *
  * @method \App\Model\Entity\EmployeeSurvey get($primaryKey, $options = [])
  * @method \App\Model\Entity\EmployeeSurvey newEntity($data = null, array $options = [])
@@ -35,9 +36,9 @@ class EmployeeSurveysTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('employee_surveys');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('employee_surveys');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 
@@ -46,6 +47,9 @@ class EmployeeSurveysTable extends Table
             'joinType' => 'INNER'
         ]);
         $this->hasMany('EmployeeSurveyResponses', [
+            'foreignKey' => 'employee_survey_id'
+        ]);
+        $this->hasMany('EmployeeSurveyResults', [
             'foreignKey' => 'employee_survey_id'
         ]);
     }

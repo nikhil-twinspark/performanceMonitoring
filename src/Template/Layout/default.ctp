@@ -13,7 +13,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'CAPview';
+$cakeDescription = 'CAPview qq';
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,8 +24,8 @@ $cakeDescription = 'CAPview';
         <?= $cakeDescription ?>:
         <?= $this->fetch('title') ?>
     </title>
-    <?= $this->Html->meta('icon') ?>
-
+    <?php echo $this->Html->meta('favicon.ico','img/favicon.ico',array('type' => 'icon'));?>
+    
     <?= $this->Html->script('/js/jquery-2.1.1.js') ?>
     <?= $this->Html->css('/css/style.css') ?>
     <?= $this->Html->css('/css/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css') ?>

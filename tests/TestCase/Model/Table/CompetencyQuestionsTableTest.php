@@ -26,13 +26,17 @@ class CompetencyQuestionsTableTest extends TestCase
     public $fixtures = [
         'app.competency_questions',
         'app.competencies',
+        'app.employee_survey_results',
+        'app.employee_surveys',
+        'app.users',
+        'app.employee_survey_responses',
+        'app.questions',
+        'app.response_groups',
+        'app.response_options',
         'app.job_designation_competencies',
         'app.job_designations',
         'app.user_job_designations',
-        'app.users',
-        'app.questions',
-        'app.response_groups',
-        'app.employee_survey_responses'
+        'app.job_requirement_levels'
     ];
 
     /**
@@ -43,7 +47,7 @@ class CompetencyQuestionsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('CompetencyQuestions') ? [] : ['className' => 'App\Model\Table\CompetencyQuestionsTable'];
+        $config = TableRegistry::exists('CompetencyQuestions') ? [] : ['className' => CompetencyQuestionsTable::class];
         $this->CompetencyQuestions = TableRegistry::get('CompetencyQuestions', $config);
     }
 

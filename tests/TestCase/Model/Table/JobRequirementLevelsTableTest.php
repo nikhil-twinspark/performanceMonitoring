@@ -35,7 +35,8 @@ class JobRequirementLevelsTableTest extends TestCase
         'app.response_groups',
         'app.response_options',
         'app.employee_survey_responses',
-        'app.employee_surveys'
+        'app.employee_surveys',
+        'app.employee_survey_results'
     ];
 
     /**
@@ -46,7 +47,7 @@ class JobRequirementLevelsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('JobRequirementLevels') ? [] : ['className' => 'App\Model\Table\JobRequirementLevelsTable'];
+        $config = TableRegistry::exists('JobRequirementLevels') ? [] : ['className' => JobRequirementLevelsTable::class];
         $this->JobRequirementLevels = TableRegistry::get('JobRequirementLevels', $config);
     }
 

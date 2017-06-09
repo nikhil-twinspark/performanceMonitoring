@@ -47,7 +47,7 @@ class EmployeeSurveyResultsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('EmployeeSurveyResults') ? [] : ['className' => 'App\Model\Table\EmployeeSurveyResultsTable'];
+        $config = TableRegistry::exists('EmployeeSurveyResults') ? [] : ['className' => EmployeeSurveyResultsTable::class];
         $this->EmployeeSurveyResults = TableRegistry::get('EmployeeSurveyResults', $config);
     }
 

@@ -26,12 +26,17 @@ class QuestionsTableTest extends TestCase
     public $fixtures = [
         'app.questions',
         'app.response_groups',
+        'app.response_options',
+        'app.employee_survey_responses',
+        'app.employee_surveys',
+        'app.users',
         'app.competency_questions',
         'app.competencies',
+        'app.employee_survey_results',
         'app.job_designation_competencies',
         'app.job_designations',
         'app.user_job_designations',
-        'app.users'
+        'app.job_requirement_levels'
     ];
 
     /**
@@ -42,7 +47,7 @@ class QuestionsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Questions') ? [] : ['className' => 'App\Model\Table\QuestionsTable'];
+        $config = TableRegistry::exists('Questions') ? [] : ['className' => QuestionsTable::class];
         $this->Questions = TableRegistry::get('Questions', $config);
     }
 

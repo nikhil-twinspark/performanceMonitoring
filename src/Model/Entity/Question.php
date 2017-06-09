@@ -15,6 +15,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\ResponseGroup $response_group
  * @property \App\Model\Entity\CompetencyQuestion[] $competency_questions
+ * @property \App\Model\Entity\EmployeeSurveyResponse[] $employee_survey_responses
  */
 class Question extends Entity
 {

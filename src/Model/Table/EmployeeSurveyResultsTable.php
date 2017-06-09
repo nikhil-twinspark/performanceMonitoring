@@ -9,8 +9,8 @@ use Cake\Validation\Validator;
 /**
  * EmployeeSurveyResults Model
  *
- * @property \Cake\ORM\Association\BelongsTo $EmployeeSurveys
- * @property \Cake\ORM\Association\BelongsTo $Competencies
+ * @property \App\Model\Table\EmployeeSurveysTable|\Cake\ORM\Association\BelongsTo $EmployeeSurveys
+ * @property \App\Model\Table\CompetenciesTable|\Cake\ORM\Association\BelongsTo $Competencies
  *
  * @method \App\Model\Entity\EmployeeSurveyResult get($primaryKey, $options = [])
  * @method \App\Model\Entity\EmployeeSurveyResult newEntity($data = null, array $options = [])
@@ -35,9 +35,9 @@ class EmployeeSurveyResultsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('employee_survey_results');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('employee_survey_results');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 

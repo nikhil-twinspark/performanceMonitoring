@@ -43,9 +43,9 @@ class JobDesignationsFixture extends TestFixture
             'id' => 1,
             'name' => 'Lorem ipsum dolor sit amet',
             'label' => 'Lorem ipsum dolor sit amet',
-            'created' => '2017-05-19 02:20:40',
-            'modified' => '2017-05-19 02:20:40',
-            'is_deleted' => '2017-05-19 02:20:40'
+            'created' => '2017-06-07 08:19:58',
+            'modified' => '2017-06-07 08:19:58',
+            'is_deleted' => '2017-06-07 08:19:58'
         ],
     ];
 }

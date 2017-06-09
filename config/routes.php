@@ -85,10 +85,14 @@ Router::prefix('api', function ($routes) {
   $routes->fallbacks('InflectedRoute');
 });
 
-Router::plugin('Integrateideas/User', ['path' => '/integrateideas/user'],function($routes) {
-    $routes->prefix('api', function($routes) {
+
+Router::scope('/user', ['plugin' => 'Integrateideas/User'], function ($routes) {
+    $routes->connect('/:controller/:action/*');
+    $routes->prefix('api', function ($routes) {
         $routes->connect('/:controller/:action/*');
+        $routes->fallbacks('InflectedRoute');
     });
+    $routes->fallbacks(DashedRoute::class);
 });
 
 /**

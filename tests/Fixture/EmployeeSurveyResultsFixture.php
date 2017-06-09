@@ -44,8 +44,8 @@ class EmployeeSurveyResultsFixture extends TestFixture
             'employee_survey_id' => 1,
             'competency_id' => 1,
             'current_level' => 1,
-            'created' => '2017-06-01 08:25:09',
-            'modified' => '2017-06-01 08:25:09'
+            'created' => '2017-06-07 08:28:35',
+            'modified' => '2017-06-07 08:28:35'
         ],
     ];
 }

@@ -27,14 +27,16 @@ class EmployeeSurveyResponsesTableTest extends TestCase
         'app.employee_survey_responses',
         'app.employee_surveys',
         'app.users',
+        'app.employee_survey_results',
+        'app.competencies',
+        'app.competency_questions',
         'app.questions',
         'app.response_groups',
-        'app.competency_questions',
-        'app.competencies',
+        'app.response_options',
         'app.job_designation_competencies',
         'app.job_designations',
         'app.user_job_designations',
-        'app.response_options'
+        'app.job_requirement_levels'
     ];
 
     /**
@@ -45,7 +47,7 @@ class EmployeeSurveyResponsesTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('EmployeeSurveyResponses') ? [] : ['className' => 'App\Model\Table\EmployeeSurveyResponsesTable'];
+        $config = TableRegistry::exists('EmployeeSurveyResponses') ? [] : ['className' => EmployeeSurveyResponsesTable::class];
         $this->EmployeeSurveyResponses = TableRegistry::get('EmployeeSurveyResponses', $config);
     }
 

@@ -42,8 +42,8 @@ class ResponseGroupsFixture extends TestFixture
             'id' => 1,
             'name' => 'Lorem ipsum dolor sit amet',
             'status' => 1,
-            'created' => '2017-05-24 14:09:03',
-            'modified' => '2017-05-24 14:09:03'
+            'created' => '2017-06-07 08:25:00',
+            'modified' => '2017-06-07 08:25:00'
         ],
     ];
 }
