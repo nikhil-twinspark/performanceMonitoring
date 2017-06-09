@@ -42,8 +42,8 @@ class CompetencyQuestionsFixture extends TestFixture
             'id' => 1,
             'competency_id' => 1,
             'question_id' => 1,
-            'created' => '2017-05-19 02:24:58',
-            'modified' => '2017-05-19 02:24:58'
+            'created' => '2017-06-07 08:15:56',
+            'modified' => '2017-06-07 08:15:56'
         ],
     ];
 }

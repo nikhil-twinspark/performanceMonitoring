@@ -64,13 +64,6 @@
                     </div>
                 </div>
                 </div>
-                        <?= $this->Form->input('status', ['label' => false,'class' => 'form-control m-b', 'value' =>1, 'type'=>'hidden']); ?>
-                <!-- <div class="hr-line-dashed"></div>
-                <div class="form-group">
-                <?= $this->Form->label('status', __('Status'), ['class' => ['col-sm-2', 'control-label']]); ?>
-                    <div class="col-sm-10">
-                    </div>
-                </div> -->
                 <div class="hr-line-dashed"></div>
 
                 <div class="form-group">

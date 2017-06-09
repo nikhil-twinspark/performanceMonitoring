@@ -125,7 +125,6 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
     </div>
     <hr />
 </div>
-
 <div class="row">
     <div class="columns large-6">
         <h4>Database</h4>

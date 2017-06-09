@@ -28,13 +28,15 @@ class ResponseGroupsTableTest extends TestCase
         'app.questions',
         'app.competency_questions',
         'app.competencies',
+        'app.employee_survey_results',
+        'app.employee_surveys',
+        'app.users',
+        'app.employee_survey_responses',
+        'app.response_options',
         'app.job_designation_competencies',
         'app.job_designations',
         'app.user_job_designations',
-        'app.users',
-        'app.employee_survey_responses',
-        'app.employee_surveys',
-        'app.response_options'
+        'app.job_requirement_levels'
     ];
 
     /**
@@ -45,7 +47,7 @@ class ResponseGroupsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('ResponseGroups') ? [] : ['className' => 'App\Model\Table\ResponseGroupsTable'];
+        $config = TableRegistry::exists('ResponseGroups') ? [] : ['className' => ResponseGroupsTable::class];
         $this->ResponseGroups = TableRegistry::get('ResponseGroups', $config);
     }
 

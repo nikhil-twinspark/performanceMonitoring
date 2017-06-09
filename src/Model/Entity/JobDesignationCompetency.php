@@ -14,6 +14,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\JobDesignation $job_designation
  * @property \App\Model\Entity\Competency $competency
+ * @property \App\Model\Entity\JobRequirementLevel[] $job_requirement_levels
  */
 class JobDesignationCompetency extends Entity
 {

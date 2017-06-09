@@ -9,8 +9,8 @@ use Cake\Validation\Validator;
 /**
  * ResponseGroups Model
  *
- * @property \Cake\ORM\Association\HasMany $Questions
- * @property \Cake\ORM\Association\HasMany $ResponseOptions
+ * @property \App\Model\Table\QuestionsTable|\Cake\ORM\Association\HasMany $Questions
+ * @property \App\Model\Table\ResponseOptionsTable|\Cake\ORM\Association\HasMany $ResponseOptions
  *
  * @method \App\Model\Entity\ResponseGroup get($primaryKey, $options = [])
  * @method \App\Model\Entity\ResponseGroup newEntity($data = null, array $options = [])
@@ -35,9 +35,9 @@ class ResponseGroupsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('response_groups');
-        $this->displayField('name');
-        $this->primaryKey('id');
+        $this->setTable('response_groups');
+        $this->setDisplayField('name');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 

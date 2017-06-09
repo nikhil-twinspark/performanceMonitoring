@@ -20,7 +20,7 @@
     ?>
     console.log(data);
     $(function(){
-
+        var LegendOptions = ['Achieved Levels','Required Levels']
         var radarData = {
             labels: data.competencies,
             datasets: [

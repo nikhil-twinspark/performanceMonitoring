@@ -19,7 +19,7 @@
             <div class="collapse mobile-navbar" id="mobile-collapse">
                 <ul class="nav navbar-nav">
                     <li>
-                        <?= $this->Html->link(__('Logout'), ['controller' => 'Integrateideas/User/Users', 'action' => 'logout'], ['class' => ['fa', 'fa-sign-out']]) ?>
+                        <?= $this->Html->link(__('Logout'), ['plugin' => 'Integrateideas/User', 'controller' => 'Users', 'action' => 'logout'], ['class' => ['fa', 'fa-sign-out']]) ?>
                     </li>
                 </ul>
             </div>

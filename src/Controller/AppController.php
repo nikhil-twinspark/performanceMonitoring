@@ -45,15 +45,8 @@ class AppController extends Controller
         $this->loadComponent('Flash');
         $this->loadComponent('Auth', [
             'authorize' => 'Controller',
-            'authenticate' => [
-                'Form' => [
-                    // 'fields' => [
-                    //     'username' => 'username',
-                    //     'password' => 'password'
-                    // ]
-                ]
-            ],
             'loginAction' => [
+                'plugin' => 'Integrateideas/User',
                 'controller' => 'Users',
                 'action' => 'login'
             ],
@@ -62,8 +55,6 @@ class AppController extends Controller
 
         // Allow the display action so our pages controller
         // continues to work.
-        $this->Auth->allow(['display']);
-
         /*
          * Enable the following components for recommended CakePHP security settings.
          * see http://book.cakephp.org/3.0/en/controllers/components/security.html
@@ -90,8 +81,8 @@ class AppController extends Controller
      public function beforeFilter(Event $event)
     {
         $user = $this->Auth->user();
-        $sideNavData = ['id'=>$user['id'],'first_name' => $user['first_name'],'last_name' => $user['last_name'] ,'role_name' => $user['role']['name'],'role_label' => $user['role']['label']];
-        $this->set('sideNavData', $sideNavData);
+        // $sideNavData = ['id'=>$user['id'],'first_name' => $user['first_name'],'last_name' => $user['last_name'] ,'role_name' => $user['role']['name'],'role_label' => $user['role']['label']];
+        // $this->set('sideNavData', $sideNavData);
     }
 
 

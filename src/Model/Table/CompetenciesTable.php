@@ -9,9 +9,9 @@ use Cake\Validation\Validator;
 /**
  * Competencies Model
  *
- * @property \Cake\ORM\Association\HasMany $CompetencyQuestions
- * @property \Cake\ORM\Association\HasMany $EmployeeSurveyResults
- * @property \Cake\ORM\Association\HasMany $JobDesignationCompetencies
+ * @property \App\Model\Table\CompetencyQuestionsTable|\Cake\ORM\Association\HasMany $CompetencyQuestions
+ * @property \App\Model\Table\EmployeeSurveyResultsTable|\Cake\ORM\Association\HasMany $EmployeeSurveyResults
+ * @property \App\Model\Table\JobDesignationCompetenciesTable|\Cake\ORM\Association\HasMany $JobDesignationCompetencies
  *
  * @method \App\Model\Entity\Competency get($primaryKey, $options = [])
  * @method \App\Model\Entity\Competency newEntity($data = null, array $options = [])
@@ -36,9 +36,9 @@ class CompetenciesTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('competencies');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('competencies');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 
@@ -46,7 +46,7 @@ class CompetenciesTable extends Table
             'foreignKey' => 'competency_id'
         ]);
         $this->hasMany('EmployeeSurveyResults', [
-            'foreignKey' => 'competency_id',
+            'foreignKey' => 'competency_id'
         ]);
         $this->hasMany('JobDesignationCompetencies', [
             'foreignKey' => 'competency_id'

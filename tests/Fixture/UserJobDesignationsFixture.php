@@ -42,8 +42,8 @@ class UserJobDesignationsFixture extends TestFixture
             'id' => 1,
             'user_id' => 1,
             'job_designation_id' => 1,
-            'created' => '2017-05-19 02:26:06',
-            'modified' => '2017-05-19 02:26:06'
+            'created' => '2017-06-07 08:22:58',
+            'modified' => '2017-06-07 08:22:58'
         ],
     ];
 }

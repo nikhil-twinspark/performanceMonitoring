@@ -42,8 +42,8 @@ class JobRequirementLevelsFixture extends TestFixture
             'id' => 1,
             'job_designation_competency_id' => 1,
             'required_level' => 1,
-            'created' => '2017-05-29 07:13:11',
-            'modified' => '2017-05-29 07:13:11'
+            'created' => '2017-06-07 08:26:33',
+            'modified' => '2017-06-07 08:26:33'
         ],
     ];
 }

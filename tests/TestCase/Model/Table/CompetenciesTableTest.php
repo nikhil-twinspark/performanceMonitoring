@@ -32,6 +32,7 @@ class CompetenciesTableTest extends TestCase
         'app.employee_survey_responses',
         'app.employee_surveys',
         'app.users',
+        'app.employee_survey_results',
         'app.job_designation_competencies',
         'app.job_designations',
         'app.user_job_designations',
@@ -46,7 +47,7 @@ class CompetenciesTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Competencies') ? [] : ['className' => 'App\Model\Table\CompetenciesTable'];
+        $config = TableRegistry::exists('Competencies') ? [] : ['className' => CompetenciesTable::class];
         $this->Competencies = TableRegistry::get('Competencies', $config);
     }
 

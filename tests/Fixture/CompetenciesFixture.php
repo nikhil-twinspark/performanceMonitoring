@@ -45,9 +45,9 @@ class CompetenciesFixture extends TestFixture
             'text' => 'Lorem ipsum dolor sit amet',
             'maximum_level' => 1,
             'description' => 'Lorem ipsum dolor sit amet',
-            'created' => '2017-06-02 05:54:49',
-            'modified' => '2017-06-02 05:54:49',
-            'is_deleted' => '2017-06-02 05:54:49'
+            'created' => '2017-06-07 08:14:51',
+            'modified' => '2017-06-07 08:14:51',
+            'is_deleted' => '2017-06-07 08:14:51'
         ],
     ];
 }

@@ -32,7 +32,11 @@ class UserJobDesignationsTableTest extends TestCase
         'app.competency_questions',
         'app.questions',
         'app.response_groups',
-        'app.employee_survey_responses'
+        'app.response_options',
+        'app.employee_survey_responses',
+        'app.employee_surveys',
+        'app.employee_survey_results',
+        'app.job_requirement_levels'
     ];
 
     /**
@@ -43,7 +47,7 @@ class UserJobDesignationsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('UserJobDesignations') ? [] : ['className' => 'App\Model\Table\UserJobDesignationsTable'];
+        $config = TableRegistry::exists('UserJobDesignations') ? [] : ['className' => UserJobDesignationsTable::class];
         $this->UserJobDesignations = TableRegistry::get('UserJobDesignations', $config);
     }
 

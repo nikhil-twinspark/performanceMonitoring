@@ -15,6 +15,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\Time $is_deleted
  *
  * @property \App\Model\Entity\CompetencyQuestion[] $competency_questions
+ * @property \App\Model\Entity\EmployeeSurveyResult[] $employee_survey_results
  * @property \App\Model\Entity\JobDesignationCompetency[] $job_designation_competencies
  */
 class Competency extends Entity

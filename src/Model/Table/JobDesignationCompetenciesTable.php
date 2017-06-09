@@ -9,9 +9,9 @@ use Cake\Validation\Validator;
 /**
  * JobDesignationCompetencies Model
  *
- * @property \Cake\ORM\Association\BelongsTo $JobDesignations
- * @property \Cake\ORM\Association\BelongsTo $Competencies
- * @property \Cake\ORM\Association\HasMany $JobRequirementLevels
+ * @property \App\Model\Table\JobDesignationsTable|\Cake\ORM\Association\BelongsTo $JobDesignations
+ * @property \App\Model\Table\CompetenciesTable|\Cake\ORM\Association\BelongsTo $Competencies
+ * @property \App\Model\Table\JobRequirementLevelsTable|\Cake\ORM\Association\HasMany $JobRequirementLevels
  *
  * @method \App\Model\Entity\JobDesignationCompetency get($primaryKey, $options = [])
  * @method \App\Model\Entity\JobDesignationCompetency newEntity($data = null, array $options = [])
@@ -36,9 +36,9 @@ class JobDesignationCompetenciesTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('job_designation_competencies');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('job_designation_competencies');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 
@@ -51,7 +51,7 @@ class JobDesignationCompetenciesTable extends Table
             'joinType' => 'INNER'
         ]);
         $this->hasMany('JobRequirementLevels', [
-            'foreignKey' => 'job_designation_competency_id',
+            'foreignKey' => 'job_designation_competency_id'
         ]);
     }
 

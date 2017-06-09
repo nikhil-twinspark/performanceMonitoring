@@ -5,14 +5,11 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use ArrayObject;
-use Cake\Event\Event;
-use Cake\Datasource\EntityInterface;
 
 /**
  * JobRequirementLevels Model
  *
- * @property \Cake\ORM\Association\BelongsTo $JobDesignationCompetencies
+ * @property \App\Model\Table\JobDesignationCompetenciesTable|\Cake\ORM\Association\BelongsTo $JobDesignationCompetencies
  *
  * @method \App\Model\Entity\JobRequirementLevel get($primaryKey, $options = [])
  * @method \App\Model\Entity\JobRequirementLevel newEntity($data = null, array $options = [])
@@ -37,9 +34,9 @@ class JobRequirementLevelsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('job_requirement_levels');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('job_requirement_levels');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 
@@ -82,30 +79,4 @@ class JobRequirementLevelsTable extends Table
 
         return $rules;
     }
-
-    // public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options)
-    // {
-    //     // pr('here');die;
-    //     //Check if a challenge is set when updating a journey.
-    //     if(isset($entity->challenges)){
-    //         $challenges =  $this->Challenges->findByJourneyId($entity->id)->extract('id');
-    //         $options->offsetSet('challengesToBeDeleted', $challenges->toArray());
-    //         //the challenges set in the option are to be deleted so that we don't have orphaned records in the system.     
-    //     }
-    //  }
-
-
-    // public function afterSaveCommit(Event $event, EntityInterface $entity, ArrayObject $options)
-    // {
-    //     //If the challenge has been deleted in the replace strategy, then the orphaned challenges will be deleted here
-    //     if($options->offsetExists('challengesToBeDeleted')) {
-    //         //After checking if the key is set,
-    //         $challengesToBeDeleted = $options->offsetGet('challengesToBeDeleted'); // get the ids to be deleted
-    //         if( count($challengesToBeDeleted))
-    //             {
-    //                 //delete the confirmations..
-    //                 $this->Challenges->Confirmations->deleteAll(['challenge_id IN' =>$challengesToBeDeleted ]);
-    //             }
-    //     }
-    // }
 }
