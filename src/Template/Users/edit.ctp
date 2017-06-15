@@ -1,3 +1,6 @@
+<?= $this->Html->css('/select2-3.5.2/select2.css') ?>
+<?= $this->Html->css('/select2-bootstrap/select2-bootstrap.css') ?>
+<?= $this->Html->script('/select2-3.5.2/select2.min.js') ?>
 <div class="row">
 <div class="col-lg-12">
     <div class="hpanel">
@@ -65,6 +68,24 @@
                     <?= $this->Form->label('name', __('Job Designation'), ['class' => ['col-sm-2', 'control-label']]); ?>
                     <div class="col-sm-10">
                     <?= $this->Form->select('user_job_designation.job_designation_id',$jobDesignations ,['label' => false, 'required' => true, 'class' => ['form-control']]); ?>
+                    </div>
+                </div>
+                </div>
+                <div id="reporting_manager_div">
+                <div class="hr-line-dashed"></div>
+                <div class="form-group">
+                    <?= $this->Form->label('name', __('Add your Reporting Managers'), ['class' => ['col-sm-2', 'control-label']]); ?>
+                    <div class="col-sm-10">
+                       <?= $this->Form->select('manager_subordinate_data.reporting_managers', $reportingManagers,['id'=>'reporting_manager_id','label' => false, 'required' => true, 'value' => $setManagerData ? $setManagerData:null,'class' => ['form-control','js-source-states-2'], 'multiple'=> 'multiple']); ?>
+                    </div>
+                </div>
+                </div>  
+                <div id="subordinate_div">
+                <div class="hr-line-dashed"></div>
+                <div class="form-group">
+                    <?= $this->Form->label('name', __('Add your Subordinates'), ['class' => ['col-sm-2', 'control-label']]); ?>
+                    <div class="col-sm-10">
+                       <?= $this->Form->select('manager_subordinate_data.subordinates', $subordinates,['id'=>'subordinate_id','label' => false, 'value'=>$setSubordinateData ? $setSubordinateData:null, 'required' => true, 'class' => ['form-control','js-source-states-2'], 'multiple'=> 'multiple']); ?>
                     </div>
                 </div>
                 </div>
@@ -155,28 +176,51 @@
 $(document).ready(function(){
     $('#job_designation_div').hide();
     $('#job_designation_id').val(" ");
-    console.log($('#job_designation_id').val(" "));
+    $('#job_designation_div').hide();
     onChange();
 });
  function onChange(){
     prodVal = $('#role_type_id').val();
         console.log(prodVal);
-        if (prodVal != 3)
+        if (prodVal == 3)
+        {
+            $('#job_designation_id').prop("disabled", false);
+            $('#job_designation_div').show();
+            $('#reporting_manager_div').show();
+            $('#reporting_manager_id').prop("disabled", false);
+            $('#subordinate_div').hide();
+            $('#subordinate_id').prop("disabled", true);
+        }
+        else if(prodVal == 4)
         {
             $('#job_designation_id').prop("disabled", true);
-            $('#job_designation_id');
             $('#job_designation_div').hide();
+            $('#reporting_manager_id').prop("disabled", false);
+            $('#reporting_manager_div').show();
+            $('#subordinate_id').prop("disabled", false);
+            $('#subordinate_div').show();
+
+
         }    
         else
         {  
-           $('#job_designation_id').prop("disabled", false);
-            $('#job_designation_id');
-            $('#job_designation_div').show();
+            $('#job_designation_id').prop("disabled", true);
+            $('#job_designation_div').hide();
+            $('#reporting_manager_id').prop("disabled", true);
+            $('#reporting_manager_div').hide();
+            $('#subordinate_id').prop("disabled", true);
+            $('#subordinate_div').hide();
            
         }
- }
+}
 
     $('#role_type_id').change(function(){
          onChange();  
+    });
+    $('#reporting_manager_id').change(function(){
+         onChange();  
+    });
+    $(function(){
+        $(".js-source-states-2").select2();
     });
 </script>

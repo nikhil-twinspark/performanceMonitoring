@@ -13,7 +13,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'CAPview qq';
+$cakeDescription = 'CAPview';
 ?>
 <!DOCTYPE html>
 <html>
