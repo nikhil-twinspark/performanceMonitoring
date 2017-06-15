@@ -102,21 +102,73 @@ class UsersController extends AppController
         ]);
 
         $roles = $this->Users->Roles->find()->where(['id IS NOT' => 1])->all()->combine('id','label')->toArray();
-
         $jobDesignations = $this->Users->UserJobDesignations->JobDesignations->find()->combine('id','label')->toArray();
+        
+        $query = $this->Users->find()->where(['role_id' => 4]);
+        $reportingManagers = $query->select(['user_id'=>'id','full_name' => $query->func()->concat(['first_name'=>'identifier', ' ','last_name'=>'identifier'])])->all()->combine('user_id','full_name')->toArray();
+        $query = $this->Users->find()->where(['role_id' => 3]);
+        $subordinates = $query->select(['user_id'=>'id','full_name' => $query->func()->concat(['first_name'=>'identifier', ' ','last_name'=>'identifier'])])->all()->combine('user_id', 'full_name')->toArray();
+        $rmData = [];
+        $subordinateData = [];
+        $rmSubordinateData = [];
+        $this->loadModel('ReportingManagerSubordinates');
+        $setManagerData = $this->ReportingManagerSubordinates->findBySubordinateId($user['id'])->all()->combine('id','reporting_manager_id')->toArray();
+        $setSubordinateData = $this->ReportingManagerSubordinates->findByReportingManagerId($user['id'])->all()->combine('id','subordinate_id')->toArray();
+        $this->set('setManagerData', $setManagerData);
+        $this->set('setSubordinateData', $setSubordinateData);
         
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data = $this->request->data;
+            if($data['manager_subordinate_data']['reporting_managers']){
+                foreach ($data['manager_subordinate_data']['reporting_managers'] as $key => $value) {
+                    $rmData[] = [   
+                                    'reporting_manager_id' => $value,
+                                    'subordinate_id' => $data['userId']
+                                ];
+                }
+                if($data['manager_subordinate_data']['subordinates']){
+                    foreach ($data['manager_subordinate_data']['subordinates'] as $key => $value) {
+                        $subordinateData[] = [
+                                                'reporting_manager_id' => $data['userId'],
+                                                'subordinate_id' => $value
+                                            ];
+                    }
+                }
+            $rmSubordinateData = array_merge($rmData,$subordinateData);
+            
+            $newEntity = $this->ReportingManagerSubordinates->newEntities($rmSubordinateData);
+            $patchEntity = $this->ReportingManagerSubordinates->patchEntities($newEntity,$rmSubordinateData);
+            $this->ReportingManagerSubordinates->saveMany($patchEntity);
+
+            }
+            
+            if($data['role_id'] == 3){
             $reqData = $this->Users->patchEntity($user, $data,['associated' =>['UserJobDesignations']]);
-            if ($this->Users->save($reqData, ['associated' =>['UserJobDesignations']])) {
+                if ($this->Users->save($reqData, ['associated' =>['UserJobDesignations']])) {
+                    $this->Flash->success(__('The user has been saved.'));
+
+                    return $this->redirect(['action' => 'adminDashboard']);
+                }
+            }else{
+            unset($data['user_job_designation']);
+            $reqData = $this->Users->patchEntity($user, $data);
+            $this->loadModel('UserJobDesignations');
+            $deleteJobDesignation = $this->UserJobDesignations->findByUserId($reqData['id'])->first();
+                if($deleteJobDesignation){    
+                    $this->UserJobDesignations->delete($deleteJobDesignation);
+                }
+                
+                if ($this->Users->save($reqData)) {
                 $this->Flash->success(__('The user has been saved.'));
 
                 return $this->redirect(['action' => 'adminDashboard']);
+                }
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
 
-
+        $this->set('reportingManagers', $reportingManagers);
+        $this->set('subordinates', $subordinates);
         $this->set('jobDesignations', $jobDesignations);
         $this->set('roles', $roles);
         $this->set(compact('user'));
@@ -206,14 +258,14 @@ class UsersController extends AppController
         $loggedInUser = $this->Auth->user();
         $this->loadModel('EmployeeSurveys');
         $employeeSurvey = $this->EmployeeSurveys->findByUserId($loggedInUser['id'])
-        ->last();
-        
+                                                ->last();
         if(!$employeeSurvey){
 
             $dataForEmployeeSurvey = ['user_id' => $loggedInUser['id'], 'iteration' => 1];
         }elseif($employeeSurvey['end_time']) {
 
             $dataForEmployeeSurvey = ['user_id' => $loggedInUser['id'], 'iteration' => $employeeSurvey['iteration'] +1];
+            
         }
         
         if(isset($dataForEmployeeSurvey) && (!$employeeSurvey || $employeeSurvey['end_time'])){
@@ -230,12 +282,13 @@ class UsersController extends AppController
         }
         $this->loadModel('UserJobDesignations');
         $jobDesignationId = $this->UserJobDesignations->findByUserId($loggedInUser['id'])
-        ->first();
+                                                      ->first();
         
         $this->loadModel('JobDesignationCompetencies');
         $surveyData = $this->JobDesignationCompetencies->findByJobDesignationId($jobDesignationId['job_designation_id'])
         ->contain(['Competencies.CompetencyQuestions.Questions'])
         ->all();
+        // pr($surveyData);die;
         
         $this->set('surveyData', $surveyData);
         $this->set('loggedInUser', $loggedInUser);

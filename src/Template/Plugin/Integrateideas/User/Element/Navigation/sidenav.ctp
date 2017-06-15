@@ -19,7 +19,7 @@
                 <a href="#"><span class="nav-label">Users</span><span class="fa arrow"></span> </a>
                 <ul class="nav nav-second-level">
                     <li><?= $this->Html->link(__('View All'), ['controller'=>'users/adminDashboard','plugin'=>false,'action' => 'index']) ?></li>
-                    <li><?= $this->Html->link(__('Add User'), ['controller'=>'integrateideas/user/users','action' => 'add']) ?></li>
+                    <li><?= $this->Html->link(__('Add User'), ['controller'=>'integrateideas/user/users','plugin'=>false,'action' => 'add']) ?></li>
                 </ul>
                 <a href="#"><span class="nav-label">Roles</span><span class="fa arrow"></span> </a>
                 <ul class="nav nav-second-level">

@@ -15,6 +15,7 @@
     </div>
     <div class="hpanel" ng-repeat="survey in surveyData"  ng-show="isSurveyStarted && showDiv == $index" >
       <div class="panel-body">
+      <form name="empSurvey">
       <div class="well" ng-show="isSurveyComplete">
                     <h3 class="list-group-item-heading">Great Job!</h3>
                     <p class="list-group-item-text">The survey is complete now. Would you like to continue editing or Submit the survey ? </p>
@@ -39,14 +40,15 @@
                   </small>
                   <div class="questText" ng-if="surveyRes.checkbox[question.question.id] == 1">
                     <p style="color:black"><strong>Justification:</strong>
-                      <input type="text" name="text1" ng-model="surveyRes.description[question.question.id]" maxlength="130">
+                      <textarea type="text" required="{{surveyRes.surveyResponseId[question.question.id]}}" name="text1" ng-model="surveyRes.description[question.question.id]" maxlength="130"></textarea>
+
                     </p>
                   </div>
                 </td>
                 <td>
-                <div  ng-repeat="response in question.question.response_group.response_options">
+                <div  ng-repeat="response in question.question.response_group.response_options" >
                   <label >
-                    <input icheck  type="radio" id="radio" ng-change = "response.id==2 ? surveyRes.description[question.question.id]='':''" name="responseOpt{{question.id}}" ng-model="surveyRes.checkbox[question.question.id]"  ng-value="response.id">
+                    <input icheck  type="radio" id="radio" ng-change = "response.id==2 ? surveyRes.description[question.question.id]='':''" required="{{surveyRes.surveyResponseId[question.question.id]}}" name="responseOpt{{question.id}}" ng-model="surveyRes.checkbox[question.question.id]"  ng-value="response.id">
                   {{response.label}}
                   </label>
                   </div>
@@ -57,9 +59,10 @@
         </div>
         <div class="text-center">
           <input type="button" value="Back" ng-if="showDiv" ng-click="goBack()">
-          <input type="button" value="Next"  ng-click="submitResponses(question.id, 0)" >
+          <input type="button" value="Next" ng-disabled="empSurvey.$invalid" ng-click="submitResponses(question.id, 0)" >
         </div>      
       </div>
+      </form>
     </div>
 
     <div class="hpanel"  style="background-color:#ffffff;" ng-show="isSurveyComplete" >
