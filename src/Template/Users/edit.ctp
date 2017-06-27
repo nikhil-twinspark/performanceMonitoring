@@ -193,8 +193,8 @@ $(document).ready(function(){
         }
         else if(prodVal == 4)
         {
-            $('#job_designation_id').prop("disabled", true);
-            $('#job_designation_div').hide();
+            $('#job_designation_id').prop("disabled", false);
+            $('#job_designation_div').show();
             $('#reporting_manager_id').prop("disabled", false);
             $('#reporting_manager_div').show();
             $('#subordinate_id').prop("disabled", false);

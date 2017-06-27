@@ -17,7 +17,7 @@
 				</a>
 			</div>
 			<div class="col-lg-5">
-				<a href="http://localhost/pathways/school-admins/school">
+				<?php echo '<a href="'.$urlHost.'users/employeeSurveys">'; ?>
 					<div class="widget btn btn-outline btn-info p-xl text-center" style="display: block;">
 					<br><br>
 						<h2>

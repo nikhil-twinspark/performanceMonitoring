@@ -119,7 +119,8 @@ class UsersController extends AppController
     $this->set('setSubordinateData', $setSubordinateData);
 
     if ($this->request->is(['patch', 'post', 'put'])) {
-        $data = $this->request->data;
+
+        $data = $this->request->data; 
         $this->loadModel('ReportingManagerSubordinates');
         $patchSubordinates = $this->ReportingManagerSubordinates->find()
         ->where([['reporting_manager_id IN' => $data['userId']] || ['subordinate_id IN' => $data['userId']]])
@@ -159,7 +160,20 @@ class UsersController extends AppController
                 return $this->redirect(['action' => 'adminDashboard']);
             }
         }else{
-            unset($data['user_job_designation']);
+            //Save reporting manager's Job Designation.
+            if($user['role_id'] == 4 ){
+                $this->loadModel('UserJobDesignations');
+                $saveRMJobDesignation = [   
+                                           'user_id' => $data['userId'],
+                                            'job_designation_id' => $data['user_job_designation']['job_designation_id']
+                                        ];
+                $patchData = $this->UserJobDesignations->findByUserId($data['userId'])->first();
+                $rmDesignation = $this->UserJobDesignations->newEntity($saveRMJobDesignation);
+                $rmDesignationPatch = $this->UserJobDesignations->patchEntity($rmDesignation,$saveRMJobDesignation);
+                $this->UserJobDesignations->save($rmDesignationPatch);    
+            }elseif($user['role_id'] == 1 || $user['role_id'] == 2){    
+                unset($data['user_job_designation']);
+            } 
             $reqData = $this->Users->patchEntity($user, $data);
             $this->loadModel('UserJobDesignations');
             $deleteJobDesignation = $this->UserJobDesignations->findByUserId($reqData['id'])->first();
@@ -227,6 +241,7 @@ public function reportingManagerDashboard(){
     $loggedInUser = $this->Auth->user();
     $urlHost = Router::url('/', true);
 
+
     $this->set('loggedInUser', $loggedInUser);
     $this->set('urlHost',$urlHost);
     $this->set('_serialize', ['users']);
@@ -286,13 +301,13 @@ public function employeeDashboard(){
 
     $this->loadModel('EmployeeSurveys');
     $employeeSurveyId = $this->EmployeeSurveys->findByUserId($loggedInUser['id'])
-    ->first();
+                                              ->first();
 
     $employeeSurveyResult = null;
     if($employeeSurveyId){
         $this->loadModel('EmployeeSurveyResults');
         $employeeSurveyResult = $this->EmployeeSurveyResults->findByEmployeeSurveyId($employeeSurveyId['id'])
-        ->first();
+        ->first();  
     }
     $role = $this->request->session()->read('loginSuccessEvent.role');
     $this->loadModel('UserJobDesignations');
