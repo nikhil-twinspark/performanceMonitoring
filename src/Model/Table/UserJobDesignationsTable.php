@@ -43,11 +43,13 @@ class UserJobDesignationsTable extends Table
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
-            'joinType' => 'INNER'
+            'joinType' => 'INNER',
+            'saveStrategy' => 'replace',
         ]);
         $this->belongsTo('JobDesignations', [
             'foreignKey' => 'job_designation_id',
-            'joinType' => 'INNER'
+            'joinType' => 'INNER',
+            'saveStrategy' => 'replace',
         ]);
     }
 
