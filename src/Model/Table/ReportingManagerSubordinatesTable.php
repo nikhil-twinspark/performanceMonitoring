@@ -41,16 +41,24 @@ class ReportingManagerSubordinatesTable extends Table
 
         $this->addBehavior('Timestamp');
 
+        $this->belongsTo('Subordinates',[
+            'className' => 'Users', 
+            'foreignKey' => 'subordinate_id'
+            ]);
         $this->belongsTo('ReportingManagers', [
             'className' => 'Users',
-            'foreignKey' => 'reporting_manager_id',
-            'joinType' => 'INNER'
-        ]);
-        $this->belongsTo('Subordinates', [
-            'className' => 'Users',
-            'foreignKey' => 'subordinate_id',
-            'joinType' => 'INNER'
-        ]);
+            'foreignKey' => 'reporting_manager_id'
+            ]);
+        // $this->belongsTo('ReportingManagers', [
+        //     'className' => 'Users',
+        //     'foreignKey' => 'reporting_manager_id',
+        //     'joinType' => 'INNER'
+        // ]);
+        // $this->belongsTo('Subordinates', [
+        //     'className' => 'Users',
+        //     'foreignKey' => 'subordinate_id',
+        //     'joinType' => 'INNER'
+        // ]);
     }
 
     /**
@@ -62,8 +70,8 @@ class ReportingManagerSubordinatesTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
+        ->integer('id')
+        ->allowEmpty('id', 'create');
 
         return $validator;
     }

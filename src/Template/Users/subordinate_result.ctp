@@ -3,11 +3,11 @@
     <div class="col-lg-12">
         <div class="hpanel">
             <div class="panel-heading">
-                Your Results
+                Subordinate Result
             </div>
             <div class="panel-body">
                 <div>
-                    <canvas id="radarChart" width="1000" height="1000"></canvas>
+                    <canvas id="radarChart" width="600" height="600"></canvas>
                 </div>
             </div>
         </div>
@@ -22,7 +22,7 @@
     $(function(){
         var LegendOptions = ['Achieved Levels','Required Levels']
         var radarData = {
-            labels: data.competencies,
+            labels: data.competency_id,
             datasets: [
             {
                 label: "Achieved Levels",
