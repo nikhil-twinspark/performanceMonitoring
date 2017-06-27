@@ -13,14 +13,15 @@
         </div>
       </div>
     </div>
-    <div class="hpanel" ng-repeat="survey in surveyData"  ng-show="isSurveyStarted && showDiv == $index" >
+    <div class="hpanel"  >
       <div class="panel-body">
-      <form name="empSurvey">
-      <div class="well" ng-show="isSurveyComplete">
-                    <h3 class="list-group-item-heading">Great Job!</h3>
-                    <p class="list-group-item-text">The survey is complete now. Would you like to continue editing or Submit the survey ? </p>
-                    <button type="button" id="gotoSubmit" class="btn btn-outline btn-info text-center" ng-click="goToSubmission()" ng-disabled="isSurveyComplete === true ? false : true">Proceed to Submit</button>
+      <div class="row">
+      <div class="col-lg-2">
+        <a href="#" ng-repeat="survey in surveyData" class="row list-group-item text-center" id="{{survey.competency.id}}" ng-click="changeTab($index)">{{survey.competency.text}}</a>
       </div>
+      <div class="col-lg-10" >
+      <form name="empSurvey">
+      <div ng-repeat="survey in surveyData"  ng-show="isSurveyStarted && showDiv == $index">
         <h4 class="text-center">{{survey.competency.text}}</h4>
         <br>
         <p class="text-center">{{survey.competency.description}}</p>
@@ -39,9 +40,9 @@
                     <br><br>
                   </small>
                   <div class="questText" ng-if="surveyRes.checkbox[question.question.id] == 1">
-                    <p style="color:black"><strong>Justification:</strong>
-                      <textarea type="text" required="{{surveyRes.surveyResponseId[question.question.id]}}" name="text1" ng-model="surveyRes.description[question.question.id]" maxlength="130"></textarea>
-
+                    <p style="color:black" ><strong>Justification:</strong>
+                      <textarea type="text" required="{{surveyRes.surveyResponseId[question.question.id]}}" name="jBox{{question.question.id}}" ng-model="surveyRes.description[question.question.id]" maxlength="130"></textarea>
+                      <div ng-show="validateJustification[question.question.id]"><i class="fa fa-lg fa-info-circle"></i><strong> Please Justify your answer.<strong></div>
                     </p>
                   </div>
                 </td>
@@ -58,14 +59,31 @@
           </table>
         </div>
         <div class="text-center">
-          <input type="button" value="Back" ng-if="showDiv" ng-click="goBack()">
-          <input type="button" value="Next" ng-disabled="empSurvey.$invalid" ng-click="submitResponses(question.id, 0)" >
-        </div>      
-      </div>
+          <!-- <input type="button" value="Back" ng-if="showDiv" ng-click="goBack()"> -->
+          <!-- ng-disabled="empSurvey.$invalid" -->
+          <input type="button" value="Save"  ng-click="submitResponses(question.id, 0)" >
+        </div>    
+        </div> 
       </form>
-    </div>
+        </div> 
+      </div>
+          <div class="wrapper text-center" ng-show="isSurveyStarted" >
+                <button type="button" id="submitEmployeeSurvey" class="btn btn-primary text-center" ng-click="endSurvey()">Submit </button>
+          </div> 
+        <!-- <div class="hpanel"  style="background-color:#ffffff;" ng-show="isSurveyStarted">
+            <div class="panel-body"> 
+                    <div class="wrapper text-center">
+                        <button type="button" id="submitlcSurvey" class="btn btn-primary text-center" ng-click="endSurvey()"  ng-disabled="isSurveyComplete === true ? false : true" <?php echo $this->Url->build([
+                                                                                          "controller" => "Users",
+                                                                                          "action" => "employeeSurveyResults",
+                                                                                ]);?> >Submit</button>
+                    </div>
+            <p class="text-center"> Hit submit to finalize this Employees' survey. </p>
+            </div>
+        </div>
+    </div> -->
 
-    <div class="hpanel"  style="background-color:#ffffff;" ng-show="isSurveyComplete" >
+    <!-- <div class="hpanel"  style="background-color:#ffffff;" ng-show="isSurveyComplete" >
              <div class="panel-head">                   
                 <div class="ibox-title">
                     <h3 class="text-center">Survey Complete</h3>
@@ -85,7 +103,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
   </div>
 </div>
 
@@ -172,6 +190,7 @@
     $scope.showDiv = 0;
     $scope.isSurveyComplete = false;
     $scope.totalCount = 0;
+    $scope.validateJustification =  {};
 
     $scope.mapResponses = function(res){
       $scope.totalCount = 0;
@@ -200,8 +219,12 @@
 
       console.log($scope.surveyRes);
     }
-    $scope.startSurvey = function(){
 
+    $scope.changeTab = function(index){
+      $scope.showDiv = index;
+    }
+    $scope.startSurvey = function(){
+      
       $scope.isSurveyStarted = true;
 
       $http.get(startSurveyUrl).then(function(response){
@@ -231,14 +254,72 @@
     $scope.goToSubmission = function(){
             console.log('here');
         }
+
+    $scope.endSurvey = function(){
+  
+            $scope.responseCounter();
+            $http.post(endSurveyUrl)
+            .then(function(response){
+              console.log('here');
+              console.log(response);
+              if(!response.data.incompleteCompetencies){
+                swal({
+                  title: "Great Job",
+                  text: "You've completed the survey.",
+                  type: "success",
+                  showCancelButton: false,
+                  confirmButtonColor: "#DD6B55",
+                  confirmButtonText: "Okay",
+                  closeOnConfirm: false,
+                  });
+              }else{
+                for(x in response.data.incompleteCompetencies){
+                  $('#'+response.data.incompleteCompetencies[x]).css('background-color','yellow');
+                } 
+              }
+                
+            }, function(response){
+                console.log(response);
+               swal({
+                  title: "Error!",
+                  text: response.message,
+                  type: "error",
+                  showCancelButton: false,
+                  confirmButtonColor: "#DD6B55",
+                  confirmButtonText: "Okay",
+                  closeOnConfirm: false,
+                  },
+                  function(isConfirm){
+                      if(isConfirm) {
+                        swal("Try again.", "You could try submitting the survey again.", "error");
+                    }
+                });
+               console.log(response);
+
+           });
+        }    
+        
     $scope.submitResponses = function(){
       console.log('in submitResponses');
-      console.log($scope.surveyRes.checkbox);
+      $scope.validateJustification = false;
+        for(x in $scope.surveyRes.checkbox){
+         if($scope.surveyRes.checkbox[x] == 1 && ($scope.surveyRes.description[x] == "" || $scope.surveyRes.description[x] == null)){
+            if(!$scope.validateJustification){
+              $scope.validateJustification = {};
+            }
+            $scope.validateJustification[x] = true;
+          }
+
+        }
+        console.log($scope.validateJustification);
+        if($scope.validateJustification){
+          console.log('here');
+          return false;
+        }
+      console.log('here2');
       $scope.submitButton = true;
       var data = [];
-
       for(x in $scope.surveyRes.checkbox) {
-      
         if(typeof $scope.surveyRes.description != 'undefined' && typeof $scope.surveyRes.description[x] == 'undefined'){
           $scope.surveyRes.description[x] = null;
         }
@@ -266,20 +347,21 @@
 
       }
       console.log(data);
+
       $http.post(saveResUrl, data)
             .then(function(response){
               init();
             }, function(response){
-                console.log(response);
-                swal({
-                  title: "Error!",
-                  text: "Could not save the response. Please try again",
-                  type: "error",
-                  showCancelButton: true,
-                  confirmButtonColor: "#DD6B55",
-                  confirmButtonText: "Okay",
-                  closeOnConfirm: true,
-              });
+              //   console.log(response);
+              //   swal({
+              //     title: "Error!",
+              //     text: "Could not save the response. Please try again",
+              //     type: "error",
+              //     showCancelButton: true,
+              //     confirmButtonColor: "#DD6B55",
+              //     confirmButtonText: "Okay",
+              //     closeOnConfirm: true,
+              // });
             });
 
 
@@ -332,6 +414,7 @@
         });
 
       });
+       
     }
 
     $scope.responseCounter = function(){
@@ -352,47 +435,9 @@
             }
         }
 
-    $scope.endSurvey = function(){
-            console.log('in endSurvey');
-            console.log('going to responseCounter');
-            $scope.responseCounter();
-            $http.post(endSurveyUrl)
-            .then(function(response){
-                swal({
-                  title: "Great Job",
-                  text: "You've completed the survey.",
-                  type: "success",
-                  showCancelButton: false,
-                  confirmButtonColor: "#DD6B55",
-                  confirmButtonText: "Okay",
-                  closeOnConfirm: false,
-                  },
-                  function(isConfirm){
-                      if(isConfirm) {
-                        window.location.replace(redirectUrl);
-                    }
-                  });
-            }, function(response){
-                console.log(response);
-               swal({
-                  title: "Error!",
-                  text: response.message,
-                  type: "error",
-                  showCancelButton: false,
-                  confirmButtonColor: "#DD6B55",
-                  confirmButtonText: "Okay",
-                  closeOnConfirm: false,
-                  },
-                  function(isConfirm){
-                      if(isConfirm) {
-                        swal("Try again.", "You could try submitting the survey again.", "error");
-                    }
-                });
-               console.log(response);
 
-           });
-        }
 
 
   })
 </script>
+
