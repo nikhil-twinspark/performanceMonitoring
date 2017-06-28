@@ -76,7 +76,7 @@
                 <div class="form-group">
                     <?= $this->Form->label('name', __('Add your Reporting Managers'), ['class' => ['col-sm-2', 'control-label']]); ?>
                     <div class="col-sm-10">
-                       <?= $this->Form->select('manager_subordinate_data.reporting_managers', $reportingManagers,['id'=>'reporting_manager_id','label' => false, 'required' => true, 'value' => $setManagerData ? $setManagerData:null,'class' => ['form-control','js-source-states-2'], 'multiple'=> 'multiple']); ?>
+                       <?= $this->Form->select('manager_subordinate_data.reporting_managers', $reportingManagers,['id'=>'reporting_manager_id','label' => false, 'value' => $setManagerData ? $setManagerData:null,'class' => ['form-control','js-source-states-2'], 'multiple'=> 'multiple']); ?>
                     </div>
                 </div>
                 </div>  
@@ -85,7 +85,7 @@
                 <div class="form-group">
                     <?= $this->Form->label('name', __('Add your Subordinates'), ['class' => ['col-sm-2', 'control-label']]); ?>
                     <div class="col-sm-10">
-                       <?= $this->Form->select('manager_subordinate_data.subordinates', $subordinates,['id'=>'subordinate_id','label' => false, 'value'=>$setSubordinateData ? $setSubordinateData:null, 'required' => true, 'class' => ['form-control','js-source-states-2'], 'multiple'=> 'multiple']); ?>
+                       <?= $this->Form->select('manager_subordinate_data.subordinates', $subordinates,['id'=>'subordinate_id','label' => false, 'value'=>$setSubordinateData ? $setSubordinateData:null, 'class' => ['form-control','js-source-states-2'], 'multiple'=> 'multiple']); ?>
                     </div>
                 </div>
                 </div>
