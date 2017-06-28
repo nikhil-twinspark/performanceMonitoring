@@ -7,7 +7,8 @@
 	    	</div>
 	        <div class="col-lg-5">
 				<?php echo '<a href="'.$urlHost.'users/reportingManagerSubordinates">'; ?>
-					<div class="widget btn btn-outline btn-primary p-xl text-center" style="display: block;">
+					<div class="widget btn btn-outline  p-xl text-center" style="display: block; border: 1px solid blue;
+    outline-color: red;">
 					<br><br>
 						<h2>
 							<strong>My Team</strong>
@@ -18,7 +19,8 @@
 			</div>
 			<div class="col-lg-5">
 				<?php echo '<a href="'.$urlHost.'users/employeeSurveys">'; ?>
-					<div class="widget btn btn-outline btn-info p-xl text-center" style="display: block;">
+					<div class="widget btn btn-outline  p-xl text-center" style="display: block; border: 1px solid blue;
+    outline-color: red;">
 					<br><br>
 						<h2>
 							<strong>Start Survey</strong>
@@ -35,5 +37,7 @@
     a.disabled {
    pointer-events: none;
    cursor: default;
+
 }
+
 </style>

@@ -233,4 +233,37 @@ public function employeeSurveyQuestions(){
   $this->set('_serialize',['surveyData','saveResponses','employeeSurveyId','jobDesignationId','loggedInUser']);
 }
 
+public function getSubordinateSurveyResponses($id){
+  // $id = employee_survey_id
+  $this->loadModel('EmployeeSurveys');
+  $employeeSurvey = $this->EmployeeSurveys->get($id, [
+        'contain' => []
+        ]);
+
+  $employeeSurveyId = $employeeSurvey->id;
+  $this->loadModel('EmployeeSurveyResponses');
+  $subordinateSurveyData = $this->EmployeeSurveyResponses->findByEmployeeSurveyId($employeeSurveyId)
+                                                         ->all()
+                                                         ->indexBy('question_id');
+  
+  $this->set('subordinateSurveyData', $subordinateSurveyData);
+  $this->set('_serialize',['subordinateSurveyData','$employeeSurvey']);
+}
+
+public function saveRmAssessment(){
+
+  $data = $this->request->getData();
+  $this->loadModel('RmSurveyAssessment');
+  $patchData = $this->RmSurveyAssessment->findByEmployeeSurveyResponseId()
+                                        ->all();
+  $newEntity = $this->RmSurveyAssessment->newEntities($data);
+  $saveRmResponse = $this->RmSurveyAssessment->patchEntities($newEntity, $data);
+
+  $this->RmSurveyAssessment->saveMany($saveRmResponse);
+
+  $this->set('response',$saveRmResponse);
+  $this->set('_serialize', 'response');
+
+}
+
 }

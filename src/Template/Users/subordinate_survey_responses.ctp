@@ -3,20 +3,10 @@
 <?= $this->Html->script('plugins/iCheck/icheck.min') ?>
 <div class="row" ng-app="employeeSurvey">
   <div class="col-lg-12" ng-controller = "surveyPage">{{backDiv}}
-    <div style="background-color:#ffffff;" ng-hide="isSurveyStarted">
-      <div class="ibox float-e-margins">
-        <div class="ibox-content">
-          <br>
-          <div class="wrapper text-center"> <br><br>
-            <button type="button" id="startemployeeSurvey" class="btn btn-primary text-center" ng-click="startSurvey()">You can start now.</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="hpanel"  >
+    <div class="hpanel" ng-init="init()">
       <div class="panel-body">
       <div class="row">
-      <div class="col-lg-2" ng-show="isSurveyStarted">
+      <div class="col-lg-2">
         <a href="#" ng-repeat="survey in surveyData" class="row list-group-item text-center" id="{{survey.competency.id}}" ng-click="changeTab($index)">{{survey.competency.text}}</a>
       </div>
       <div class="col-lg-10" >
@@ -39,19 +29,27 @@
                     {{question.question.text}}
                     <br><br>
                   </small>
-                  <div class="questText" ng-if="surveyRes.checkbox[question.question.id] == 1">
-                    <p style="color:black" ><strong>Justification:</strong>
-                      <textarea type="text" required="{{surveyRes.surveyResponseId[question.question.id]}}" name="jBox{{question.question.id}}" ng-model="surveyRes.description[question.question.id]" maxlength="130"></textarea>
-                      <div ng-show="validateJustification[question.question.id]"><i class="fa fa-lg fa-info-circle"></i><strong> Please Justify your answer.<strong></div>
+                  <div class="questText" >
+                    <p style="color:black" ><strong>Employee's Response:</strong>
+                      {{subordinateResponses[question.id].response_option_id == 1? 'Yes':"No"}}
+                    </p>
+                    <p style="color:black" ng-if="subordinateResponses[question.id].response_option_id == 1" ><strong>Justification:</strong> {{subordinateResponses[question.id].description}}
+              
                     </p>
                   </div>
                 </td>
                 <td>
                 <div  ng-repeat="response in question.question.response_group.response_options" >
-                  <label >
-                    <input icheck  type="radio" id="radio" ng-change = "response.id==2 ? surveyRes.description[question.question.id]='':''" required="{{surveyRes.surveyResponseId[question.question.id]}}" name="responseOpt{{question.id}}" ng-model="surveyRes.checkbox[question.question.id]"  ng-value="response.id">
+                  <label>
+                    <input icheck  type="radio" id="radio" required="{{surveyRes.surveyResponseId[question.question.id]}}" name="responseOpt{{question.id}}" ng-change="rmResponse[question.id].employee_survey_response_id = subordinateResponses[question.id].id" ng-model="rmResponse[question.id].rm_response_option_id"  ng-value="response.id">
                   {{response.label}}
                   </label>
+                </div>
+                </td>
+                <td>
+                  <div>
+                  Comments
+                     <textarea type="text" ng-model="rmResponse[question.id].rm_comment" maxlength="130"></textarea>
                   </div>
                 </td>
               </tr>
@@ -59,51 +57,15 @@
           </table>
         </div>
         <div class="text-center">
-          <!-- <input type="button" value="Back" ng-if="showDiv" ng-click="goBack()"> -->
-          <!-- ng-disabled="empSurvey.$invalid" -->
-          <input type="button" value="Save"  ng-click="submitResponses(question.id, 0)" >
+          <input type="button" value="Save"  ng-click="submitRmResponses(question.id, 0)" >
         </div>    
         </div> 
       </form>
         </div> 
       </div>
-          <div class="wrapper text-center" ng-show="isSurveyStarted" >
-                <button type="button" id="submitEmployeeSurvey" class="btn btn-primary text-center" ng-click="endSurvey()">Submit </button>
-          </div> 
-        <!-- <div class="hpanel"  style="background-color:#ffffff;" ng-show="isSurveyStarted">
-            <div class="panel-body"> 
-                    <div class="wrapper text-center">
-                        <button type="button" id="submitlcSurvey" class="btn btn-primary text-center" ng-click="endSurvey()"  ng-disabled="isSurveyComplete === true ? false : true" <?php echo $this->Url->build([
-                                                                                          "controller" => "Users",
-                                                                                          "action" => "employeeSurveyResults",
-                                                                                ]);?> >Submit</button>
-                    </div>
-            <p class="text-center"> Hit submit to finalize this Employees' survey. </p>
-            </div>
-        </div>
-    </div> -->
-
-    <!-- <div class="hpanel"  style="background-color:#ffffff;" ng-show="isSurveyComplete" >
-             <div class="panel-head">                   
-                <div class="ibox-title">
-                    <h3 class="text-center">Survey Complete</h3>
-                </div>
-            </div>
-            <div class="panel-body">
-                <div class="ibox-content"> 
-                    <p class="text-center">Are there any changes that you want to make? If so, go back and do that now before hitting submit.
-                        <br><br>
-                         Hit submit to finalize this student's survey.
-                    </p>
-                    <div class="wrapper text-center">
-                        <button type="button" id="submitlcSurvey" class="btn btn-primary text-center" ng-click="endSurvey()"  ng-disabled="isSurveyComplete === true ? false : true" <?php echo $this->Url->build([
-                                                                                          "controller" => "Users",
-                                                                                          "action" => "employeeSurveyResults",
-                                                                                ]);?> >Submit</button>
-                    </div>
-                </div>
-            </div>
-        </div> -->
+        <div class="wrapper text-center" ng-show="isSurveyStarted" >
+              <button type="button" id="submitEmployeeSurvey" class="btn btn-primary text-center" ng-click="endSurvey()">Submit </button>
+        </div> 
   </div>
 </div>
 
@@ -135,6 +97,17 @@
         "prefix" =>"api",
         "controller" => "EmployeeSurveys", 
         "action" => "stopSurvey"
+        ])."';";
+  echo "var getSubordinateResponseUrl = '".$this->Url->build([
+        'plugin' => false,
+        "prefix" =>"api",
+        "controller" => "EmployeeSurveys",
+        "action" => "getSubordinateSurveyResponses"
+        ])."';";
+  echo "var saveRmResponseUrl = '".$this->Url->build([
+        "prefix" =>"api",
+        "controller" => "EmployeeSurveys", 
+        "action" => "saveRmAssessment"
         ])."';";
   ?>
   var employeeSurvey = angular.module('employeeSurvey', []);
@@ -176,7 +149,8 @@
 
   employeeSurvey.controller('surveyPage', function($scope, $http, $window, $timeout){
 
-    $scope.isSurveyStarted = false;
+    $scope.rmResponse = {};
+    $scope.isSurveyStarted = true;
     $scope.surveyId = 0;
     $scope.responses = '';
     $scope.surveyRes = {};
@@ -223,13 +197,12 @@
     $scope.changeTab = function(index){
       $scope.showDiv = index;
     }
+
     $scope.startSurvey = function(){
       
-      $scope.isSurveyStarted = true;
-
       $http.get(startSurveyUrl).then(function(response){
         $scope.surveyId = response.data.indiSurveyId;
-        init();
+        $scope.init();
       },function(response){
         console.log(response);
         console.log(redirectUrl);
@@ -298,6 +271,18 @@
 
            });
         }    
+    $scope.submitRmResponses = function(){
+      console.log($scope.rmResponse);
+      console.log('in rm submit');
+      $http.post(saveRmResponseUrl, $scope.rmResponse)
+            .then(function(response){
+              console.log(response);
+              $scope.init();
+            }, function(response){
+              
+            });
+
+    }
         
     $scope.submitResponses = function(){
       console.log('in submitResponses');
@@ -350,7 +335,7 @@
 
       $http.post(saveResUrl, data)
             .then(function(response){
-              init();
+              $scope.init();
             }, function(response){
               //   console.log(response);
               //   swal({
@@ -385,9 +370,14 @@
 
       }
 
-    function init(){
+    $scope.init = function(){
+      console.log('here');
+      $scope.isSurveyStarted = 1;
       $scope.surveyData = new Object;
-      $http.get(getQuesUrl+'/'+$scope.surveyId+'.json').then(function(response){ 
+      var subordinateId = $window.location.href.split("/").reverse();
+      var url = getQuesUrl+'/'+subordinateId[0]+'.json';
+
+      $http.get(url).then(function(response){ 
         console.log(response);
         $scope.surveyData = response.data.surveyData;
         $scope.employeeSurveyId = response.data.employeeSurveyId;
@@ -414,6 +404,12 @@
         });
 
       });
+      var subordinateId = $window.location.href.split("/").reverse();
+      var url = getSubordinateResponseUrl+'/'+subordinateId[0]+'.json'; 
+      $scope.subordinateResponses = new Object;
+      $http.get(url).then(function(response){
+        $scope.subordinateResponses = response.data.subordinateSurveyData;
+      });
        
     }
 
@@ -434,10 +430,6 @@
                 $scope.isSurveyComplete = false;
             }
         }
-
-
-
-
   })
 </script>
 
