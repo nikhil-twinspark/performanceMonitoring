@@ -26,9 +26,9 @@
             datasets: [
             {
                 label: "Achieved Levels",
-                fillColor: "rgba(98,203,49,0.2)",
+                fillColor: "rgba(98,203,49,0.5)",
                 strokeColor: "rgba(98,203,49,1)",
-                pointColor: "rgba(98,203,49,1)",
+                pointColor: "rgba(98,203,49,0.5)",
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
                 pointHighlightStroke: "#62cb31",
@@ -36,9 +36,9 @@
             },
             {
                 label: "Required Levels",
-                fillColor: "rgba(98,203,49,0.4)",
+                fillColor: "rgba(10,49,82, 0.5)",
                 strokeColor: "rgba(98,203,49,1)",
-                pointColor: "rgba(98,203,49,1)",
+                pointColor: "rgba(10,49,82, 0.5)",
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
                 pointHighlightStroke: "#62cb31",
@@ -46,25 +46,13 @@
             }
             ]
         };
-
         var radarOptions = {
-            scaleShowLine : true,
-            angleShowLineOut : true,
-            scaleShowLabels : false,
-            scaleBeginAtZero : true,
-            angleLineColor : "rgba(0,0,0,.1)",
-            angleLineWidth : 1,
-            pointLabelFontFamily : "'Arial'",
-            pointLabelFontStyle : "normal",
-            pointLabelFontSize : 10,
-            pointLabelFontColor : "#666",
-            pointDot : true,
-            pointDotRadius : 2,
-            pointDotStrokeWidth : 1,
-            pointHitDetectionRadius : 20,
-            datasetStroke : true,
-            datasetStrokeWidth : 1,
-            datasetFill : true,
+           responsive: true,
+           animation: true,
+           barValueSpacing : 5,
+           barDatasetSpacing : 1,
+           tooltipFillColor: "rgba(0,0,0,0.8)",                
+           multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
         };
 
         var ctx = document.getElementById("radarChart").getContext("2d");

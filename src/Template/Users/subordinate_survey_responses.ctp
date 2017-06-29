@@ -294,9 +294,7 @@
             }
             $scope.validateJustification[x] = true;
           }
-
         }
-        console.log($scope.validateJustification);
         if($scope.validateJustification){
           console.log('here');
           return false;
@@ -414,11 +412,9 @@
     }
 
     $scope.responseCounter = function(){
-            // var totalCount = 0;
             var count = 0;
             console.log($scope.surveyRes.checkbox);
             for(x in $scope.surveyRes.checkbox){
-                // totalCount++;
                 if(typeof $scope.surveyRes.checkbox[x] != "undefined"){
                     count++;
                 }
