@@ -217,7 +217,7 @@ public function employeeSurveyQuestions(){
   
   $this->loadModel('UserJobDesignations');
   $jobDesignationId = $this->UserJobDesignations->findByUserId($loggedInUser['id'])
-  ->first();
+                                              ->first();
 
   $this->loadModel('JobDesignationCompetencies');
   $surveyData = $this->JobDesignationCompetencies->findByJobDesignationId($jobDesignationId['job_designation_id'])
@@ -231,6 +231,34 @@ public function employeeSurveyQuestions(){
   $this->set('surveyData', $surveyData);
   $this->set('employeeSurveyId', $employeeSurveyId);
   $this->set('_serialize',['surveyData','saveResponses','employeeSurveyId','jobDesignationId','loggedInUser']);
+}
+
+public function getSubordinateSurveyData($id){
+  $this->loadModel('EmployeeSurveys');
+  $employeeSurvey = $this->EmployeeSurveys->get($id, [
+        'contain' => []
+        ]);
+  $userId = $employeeSurvey->user_id;
+  
+  $employeeSurveyId = $employeeSurvey->id;
+  $this->loadModel('UserJobDesignations');
+  $jobDesignationId = $this->UserJobDesignations->findByUserId($userId)
+                                                ->first();
+  
+  $this->loadModel('JobDesignationCompetencies');
+  $surveyData = $this->JobDesignationCompetencies->findByJobDesignationId($jobDesignationId['job_designation_id'])
+  ->contain(['Competencies.CompetencyQuestions.Questions' => function($q) use($employeeSurveyId){
+    return $q->contain(['ResponseGroups.ResponseOptions','EmployeeSurveyResponses' => function($x)use($employeeSurveyId){
+      return $x->where(['employee_survey_id' => $employeeSurveyId]);
+    }]);
+  }])
+  ->all();
+
+  $this->set('surveyData', $surveyData);
+  $this->set('employeeSurveyId', $employeeSurveyId);
+  $this->set('_serialize',['surveyData','saveResponses','employeeSurveyId','jobDesignationId','userId']);
+
+
 }
 
 public function getSubordinateSurveyResponses($id){

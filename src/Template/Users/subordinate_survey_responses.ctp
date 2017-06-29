@@ -75,7 +75,7 @@
   echo "var getQuesUrl = '".$this->Url->build([
     "controller" => "EmployeeSurveys",
     "prefix" =>"api",
-    "action" => "employeeSurveyQuestions"
+    "action" => "getSubordinateSurveyData"
     ])."';";
   echo "var startSurveyUrl = '".$this->Url->build([
     'plugin' => false,
