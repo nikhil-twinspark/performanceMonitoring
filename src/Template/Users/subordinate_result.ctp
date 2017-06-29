@@ -25,7 +25,7 @@
             labels: data.competencies,
             datasets: [
             {
-                label: "Achieved Levels",
+                label: "Employee Self Rating",
                 fillColor: "rgba(98,203,49,0.5)",
                 strokeColor: "rgba(98,203,49,1)",
                 pointColor: "rgba(98,203,49,0.5)",
@@ -35,8 +35,8 @@
                 data: data.achieved_levels
             },
             {
-                label: "Required Levels",
-                fillColor: "rgba(10,49,82, 0.5)",
+                label: "Job Requirement"
+                fillColor: "rgba(0,0,0, 0.5)",
                 strokeColor: "rgba(98,203,49,1)",
                 pointColor: "rgba(10,49,82, 0.5)",
                 pointStrokeColor: "#fff",
