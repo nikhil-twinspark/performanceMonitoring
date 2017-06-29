@@ -122,12 +122,12 @@ public function stopSurvey(){
     if(count($jobDesignationCompetencies->competency->competency_questions) != $surveyResultData){ 
       $incompleteCompetencies[] = $jobDesignationCompetencies->competency_id;
       $indiSurveySave = [];
-    }else{
-      $indiSurvey->end_time = date('Y-m-d H:i:s');
+     }
+  }
+  if(empty($incompleteCompetencies)){
+    $indiSurvey->end_time = date('Y-m-d H:i:s');
       $indiSurveySave = $this->EmployeeSurveys->save($indiSurvey);
       $employeeSurveyId = $indiSurveySave['id'];
-
-    }
   }                               
 
   $this->loadModel('EmployeeSurveyResponses');

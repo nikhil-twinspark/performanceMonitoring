@@ -262,7 +262,7 @@
             .then(function(response){
               console.log('here');
               console.log(response);
-              if(!response.data.incompleteCompetencies){
+              if(response.data.incompleteCompetencies.length == 0){
                 swal({
                   title: "Great Job",
                   text: "You've completed the survey.",
@@ -271,7 +271,13 @@
                   confirmButtonColor: "#DD6B55",
                   confirmButtonText: "Okay",
                   closeOnConfirm: false,
-                  });
+                  },
+                  function(isConfirm){
+                      if(isConfirm) {
+                        window.location.replace(redirectUrl);
+                        swal("Survey Completed.", "You have successfully completed the survey.", "success");
+                    }
+                });
               }else{
                 for(x in response.data.incompleteCompetencies){
                   $('#'+response.data.incompleteCompetencies[x]).css('background-color','yellow');
