@@ -35,7 +35,7 @@
                 data: data.achieved_levels
             },
             {
-                label: "Job Requirement"
+                label: "Job Requirement",
                 fillColor: "rgba(0,0,0, 0.5)",
                 strokeColor: "rgba(98,203,49,1)",
                 pointColor: "rgba(10,49,82, 0.5)",
