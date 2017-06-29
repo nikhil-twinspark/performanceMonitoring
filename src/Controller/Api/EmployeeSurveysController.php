@@ -214,7 +214,7 @@ public function employeeSurveyQuestions(){
   ->last();
 
   $employeeSurveyId = $employeeSurvey['id'];
-      // pr($employeeSurveyId);die;
+  
   $this->loadModel('UserJobDesignations');
   $jobDesignationId = $this->UserJobDesignations->findByUserId($loggedInUser['id'])
   ->first();
@@ -253,17 +253,37 @@ public function getSubordinateSurveyResponses($id){
 public function saveRmAssessment(){
 
   $data = $this->request->getData();
+  foreach ($data as $key => $value) {
+      $employeeSurveyResponseId[] = $value['employee_survey_response_id'];
+    }
+
   $this->loadModel('RmSurveyAssessment');
-  $patchData = $this->RmSurveyAssessment->findByEmployeeSurveyResponseId()
-                                        ->all();
+  $patchData = $this->RmSurveyAssessment->find()
+                                        ->where(['employee_survey_response_id IN' => $employeeSurveyResponseId])
+                                        ->all()
+                                        ->toArray();
+
+  if($patchData){
+  $saveRmResponse = $this->RmSurveyAssessment->patchEntities($patchData, $data);
+
+  }else{
   $newEntity = $this->RmSurveyAssessment->newEntities($data);
   $saveRmResponse = $this->RmSurveyAssessment->patchEntities($newEntity, $data);
-
+  }
+  
   $this->RmSurveyAssessment->saveMany($saveRmResponse);
 
   $this->set('response',$saveRmResponse);
   $this->set('_serialize', 'response');
 
 }
+
+// public function stopRmSurvey(){
+//   $this->loadModel('RmSurveyAssessment');
+//   $subordinateSurveyResponses = $this->RmSurveyAssessment->find()
+//                                                          ->all(); 
+//   pr($subordinateSurveyResponses);die;
+
+// }
 
 }

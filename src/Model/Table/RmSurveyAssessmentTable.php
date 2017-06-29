@@ -80,6 +80,7 @@ class RmSurveyAssessmentTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['employee_survey_response_id'], 'EmployeeSurveyResponses'));
+        // $rules->add($rules->IsUnique(['employee_survey_response_id'], false));
         // $rules->add($rules->existsIn(['rm_response_option_id'], 'RmResponseOptions'));
 
         return $rules;

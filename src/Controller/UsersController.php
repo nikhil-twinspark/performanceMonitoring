@@ -291,7 +291,7 @@ public function subordinateResult($id){
                                                          ->contain(['Competencies.EmployeeSurveyResults' => function($q) use($employeeSurveyId){
                                                             return $q->where(['employee_survey_id' => $employeeSurveyId]);
                                                             },'JobRequirementLevels'])->all();
-    // pr($surveyResultData);die;
+
     $achieved_levels = [];
     $required_levels = [];
     $competencies = [];
@@ -302,11 +302,11 @@ public function subordinateResult($id){
         foreach ($value['competency']['employee_survey_results'] as $key => $value1) {
             $achieved_levels[] = $value1['current_level'];
         }
-    }
+    } 
     $data = [ 'competencies' => $competencies,
-    'required_levels' => $required_levels,
-    'achieved_levels' => $achieved_levels 
-    ];
+              'required_levels' => $required_levels,
+              'achieved_levels' => $achieved_levels 
+            ];
 
     $this->set('data', $data);
     $this->set('_serialize', ['$employeeSurvey']);
