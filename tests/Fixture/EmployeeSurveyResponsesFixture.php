@@ -46,8 +46,8 @@ class EmployeeSurveyResponsesFixture extends TestFixture
             'question_id' => 1,
             'response_option_id' => 1,
             'description' => 'Lorem ipsum dolor sit amet',
-            'created' => '2017-06-07 08:29:01',
-            'modified' => '2017-06-07 08:29:01'
+            'created' => '2017-06-29 13:43:21',
+            'modified' => '2017-06-29 13:43:21'
         ],
     ];
 }

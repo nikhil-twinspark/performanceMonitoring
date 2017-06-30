@@ -51,8 +51,8 @@ class RmSurveyAssessmentFixture extends TestFixture
             'employee_survey_response_id' => 1,
             'rm_response_option_id' => 1,
             'rm_comment' => 'Lorem ipsum dolor sit amet',
-            'created' => '2017-06-28 08:13:29',
-            'modified' => '2017-06-28 08:13:29'
+            'created' => '2017-06-29 13:43:34',
+            'modified' => '2017-06-29 13:43:34'
         ],
     ];
 }

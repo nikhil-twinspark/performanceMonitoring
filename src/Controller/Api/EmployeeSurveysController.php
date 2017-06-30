@@ -249,14 +249,31 @@ public function getSubordinateSurveyData($id){
   $surveyData = $this->JobDesignationCompetencies->findByJobDesignationId($jobDesignationId['job_designation_id'])
   ->contain(['Competencies.CompetencyQuestions.Questions' => function($q) use($employeeSurveyId){
     return $q->contain(['ResponseGroups.ResponseOptions','EmployeeSurveyResponses' => function($x)use($employeeSurveyId){
-      return $x->where(['employee_survey_id' => $employeeSurveyId]);
+      return $x->where(['employee_survey_id' => $employeeSurveyId])->contain(['RmSurveyAssessment']);
     }]);
   }])
-  ->all();
+  ->all()->toArray();
+  foreach ($surveyData as $key1 => $subordinateData) {
+      foreach ($subordinateData->competency->competency_questions as $key2 => $competencyQuestions) {
+          foreach ($competencyQuestions->question->employee_survey_responses[0]->rm_survey_assessment as $key3 => $getRmResponses) {
+              $rmResponse[$competencyQuestions->question_id] = [
+                                                                  'id' => $getRmResponses->id,
+                                                                  'employee_survey_response_id' => $getRmResponses->employee_survey_response_id,
+                                                                  'rm_response_option_id' => $getRmResponses->rm_response_option_id,
+                                                                  'rm_comment' => $getRmResponses->rm_comment
+                                                                  ];
+          } 
+      }
+  }
 
+  if(!empty($rmResponse)){
+  $this->set('rmResponse', $rmResponse);  
+  }
+
+  
   $this->set('surveyData', $surveyData);
   $this->set('employeeSurveyId', $employeeSurveyId);
-  $this->set('_serialize',['surveyData','saveResponses','employeeSurveyId','jobDesignationId','userId']);
+  $this->set('_serialize',['surveyData','saveResponses','employeeSurveyId','jobDesignationId','userId','rmResponse']);
 
 
 }
@@ -281,22 +298,22 @@ public function getSubordinateSurveyResponses($id){
 public function saveRmAssessment(){
 
   $data = $this->request->getData();
+
   foreach ($data as $key => $value) {
-      $employeeSurveyResponseId[] = $value['employee_survey_response_id'];
-    }
+    $employeeSurveyResponseId[] = $value['employee_survey_response_id'];
+  }
 
   $this->loadModel('RmSurveyAssessment');
   $patchData = $this->RmSurveyAssessment->find()
                                         ->where(['employee_survey_response_id IN' => $employeeSurveyResponseId])
                                         ->all()
                                         ->toArray();
-
   if($patchData){
-  $saveRmResponse = $this->RmSurveyAssessment->patchEntities($patchData, $data);
-
+    $saveRmResponse = $this->RmSurveyAssessment->patchEntities($patchData, $data);
+    
   }else{
-  $newEntity = $this->RmSurveyAssessment->newEntities($data);
-  $saveRmResponse = $this->RmSurveyAssessment->patchEntities($newEntity, $data);
+    $newEntity = $this->RmSurveyAssessment->newEntities($data);
+    $saveRmResponse = $this->RmSurveyAssessment->patchEntities($newEntity, $data);
   }
   
   $this->RmSurveyAssessment->saveMany($saveRmResponse);
@@ -306,12 +323,12 @@ public function saveRmAssessment(){
 
 }
 
-// public function stopRmSurvey(){
-//   $this->loadModel('RmSurveyAssessment');
-//   $subordinateSurveyResponses = $this->RmSurveyAssessment->find()
-//                                                          ->all(); 
-//   pr($subordinateSurveyResponses);die;
-
-// }
+public function stopRmSurvey(){
+  $this->loadModel('RmSurveyAssessment');
+  $subordinateSurveyResponses = $this->RmSurveyAssessment->find()
+                                                         ->all(); 
+  pr($subordinateSurveyResponses);die;
+  
+}
 
 }

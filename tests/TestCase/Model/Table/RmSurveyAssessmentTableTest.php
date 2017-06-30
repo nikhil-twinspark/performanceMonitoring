@@ -39,8 +39,7 @@ class RmSurveyAssessmentTableTest extends TestCase
         'app.response_groups',
         'app.response_options',
         'app.employee_survey_results',
-        'app.job_requirement_levels',
-        'app.rm_response_options'
+        'app.job_requirement_levels'
     ];
 
     /**

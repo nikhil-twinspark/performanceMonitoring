@@ -12,6 +12,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\EmployeeSurveysTable|\Cake\ORM\Association\BelongsTo $EmployeeSurveys
  * @property \App\Model\Table\QuestionsTable|\Cake\ORM\Association\BelongsTo $Questions
  * @property \App\Model\Table\ResponseOptionsTable|\Cake\ORM\Association\BelongsTo $ResponseOptions
+ * @property |\Cake\ORM\Association\HasMany $RmSurveyAssessment
  *
  * @method \App\Model\Entity\EmployeeSurveyResponse get($primaryKey, $options = [])
  * @method \App\Model\Entity\EmployeeSurveyResponse newEntity($data = null, array $options = [])
@@ -53,6 +54,9 @@ class EmployeeSurveyResponsesTable extends Table
         $this->belongsTo('ResponseOptions', [
             'foreignKey' => 'response_option_id',
             'joinType' => 'INNER'
+        ]);
+        $this->hasMany('RmSurveyAssessment', [
+            'foreignKey' => 'employee_survey_response_id'
         ]);
     }
 
