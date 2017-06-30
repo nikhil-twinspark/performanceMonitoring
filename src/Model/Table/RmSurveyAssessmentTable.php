@@ -10,7 +10,7 @@ use Cake\Validation\Validator;
  * RmSurveyAssessment Model
  *
  * @property \App\Model\Table\EmployeeSurveyResponsesTable|\Cake\ORM\Association\BelongsTo $EmployeeSurveyResponses
- * @property \App\Model\Table\RmResponseOptionsTable|\Cake\ORM\Association\BelongsTo $RmResponseOptions
+ * @property |\Cake\ORM\Association\BelongsTo $RmResponseOptions
  *
  * @method \App\Model\Entity\RmSurveyAssessment get($primaryKey, $options = [])
  * @method \App\Model\Entity\RmSurveyAssessment newEntity($data = null, array $options = [])
@@ -43,9 +43,7 @@ class RmSurveyAssessmentTable extends Table
 
         $this->belongsTo('EmployeeSurveyResponses', [
             'foreignKey' => 'employee_survey_response_id',
-            'joinType' => 'INNER',
-            'saveStrategy' => 'replace'
-
+            'joinType' => 'INNER'
         ]);
         // $this->belongsTo('RmResponseOptions', [
         //     'foreignKey' => 'rm_response_option_id'
@@ -80,7 +78,6 @@ class RmSurveyAssessmentTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['employee_survey_response_id'], 'EmployeeSurveyResponses'));
-        // $rules->add($rules->IsUnique(['employee_survey_response_id'], false));
         // $rules->add($rules->existsIn(['rm_response_option_id'], 'RmResponseOptions'));
 
         return $rules;

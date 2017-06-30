@@ -27,15 +27,17 @@ class EmployeeSurveyResponsesTableTest extends TestCase
         'app.employee_survey_responses',
         'app.employee_surveys',
         'app.users',
-        'app.employee_survey_results',
+        'app.roles',
+        'app.user_old_passwords',
+        'app.user_job_designations',
+        'app.job_designations',
+        'app.job_designation_competencies',
         'app.competencies',
         'app.competency_questions',
         'app.questions',
         'app.response_groups',
         'app.response_options',
-        'app.job_designation_competencies',
-        'app.job_designations',
-        'app.user_job_designations',
+        'app.employee_survey_results',
         'app.job_requirement_levels'
     ];
 

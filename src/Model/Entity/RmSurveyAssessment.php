@@ -14,7 +14,6 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\Time $modified
  *
  * @property \App\Model\Entity\EmployeeSurveyResponse $employee_survey_response
- * @property \App\Model\Entity\RmResponseOption $rm_response_option
  */
 class RmSurveyAssessment extends Entity
 {
